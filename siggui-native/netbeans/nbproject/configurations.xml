@@ -1,0 +1,358 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configurationDescriptor version="95">
+  <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
+    <logicalFolder name="HeaderFiles" displayName="core" projectFiles="true">
+      <itemPath>../src/core/byteswap.h</itemPath>
+      <itemPath>../src/core/datatypeconverter.cpp</itemPath>
+      <itemPath>../src/core/datatypeconverter.h</itemPath>
+      <itemPath>../src/core/fileinfo.cpp</itemPath>
+      <itemPath>../src/core/fileinfo.h</itemPath>
+      <itemPath>../src/core/filesource.cpp</itemPath>
+      <itemPath>../src/core/filesource.h</itemPath>
+      <itemPath>../src/core/sigguinative.cpp</itemPath>
+    </logicalFolder>
+    <logicalFolder name="ResourceFiles" displayName="javah" projectFiles="true">
+      <itemPath>../src/javah/siggui_SigGuiController.h</itemPath>
+      <itemPath>../src/javah/siggui_SigGuiNative.h</itemPath>
+      <itemPath>../src/javah/siggui_properties_SampleFormat.h</itemPath>
+      <itemPath>../src/javah/siggui_properties_WaveFileProperties.h</itemPath>
+      <itemPath>../src/javah/siggui_spectrum_SpectrumParameters.h</itemPath>
+      <itemPath>../src/javah/siggui_spectrum_SpectrumTask.h</itemPath>
+      <itemPath>../src/javah/siggui_timeseries_TimeseriesParameters.h</itemPath>
+      <itemPath>../src/javah/siggui_timeseries_TimeseriesTask.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f3" displayName="jni" projectFiles="true">
+      <itemPath>../src/jni/jniwrapper.cpp</itemPath>
+      <itemPath>../src/jni/jniwrapper.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="SourceFiles" displayName="properties" projectFiles="true">
+      <itemPath>../src/properties/SampleFormat.cpp</itemPath>
+      <itemPath>../src/properties/SampleFormat.h</itemPath>
+      <itemPath>../src/properties/WaveFileProperties.cpp</itemPath>
+      <itemPath>../src/properties/WaveFileProperties.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f5" displayName="signal" projectFiles="true">
+      <itemPath>../src/signal/fft.cpp</itemPath>
+      <itemPath>../src/signal/fft.h</itemPath>
+      <itemPath>../src/signal/fftwindows.cpp</itemPath>
+      <itemPath>../src/signal/fftwindows.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f1" displayName="spectrum" projectFiles="true">
+      <itemPath>../src/spectrum/spectrumjni.cpp</itemPath>
+      <itemPath>../src/spectrum/spectrumsink.cpp</itemPath>
+      <itemPath>../src/spectrum/spectrumsink.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f2" displayName="timeseries" projectFiles="true">
+      <itemPath>../src/timeseries/timeseriesjni.cpp</itemPath>
+      <itemPath>../src/timeseries/timeseriessink.cpp</itemPath>
+      <itemPath>../src/timeseries/timeseriessink.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f6" displayName="utility" projectFiles="true" kind="ROOT">
+      <itemPath>../src/utility/math.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="f4" displayName="wave" projectFiles="true">
+      <itemPath>../src/wave/wavefile.cpp</itemPath>
+      <itemPath>../src/wave/wavefile.h</itemPath>
+      <itemPath>../src/wave/wavefunctions.cpp</itemPath>
+      <itemPath>../src/wave/wavefunctions.h</itemPath>
+    </logicalFolder>
+    <logicalFolder name="TestFiles"
+                   displayName="Test Files"
+                   projectFiles="false"
+                   kind="TEST_LOGICAL_FOLDER">
+    </logicalFolder>
+    <logicalFolder name="ExternalFiles"
+                   displayName="Important Files"
+                   projectFiles="false"
+                   kind="IMPORTANT_FILES_FOLDER">
+      <itemPath>Makefile</itemPath>
+    </logicalFolder>
+  </logicalFolder>
+  <projectmakefile>Makefile</projectmakefile>
+  <confs>
+    <conf name="Debug" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <ccTool>
+          <architecture>2</architecture>
+          <incDir>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.79-2.5.5.1.el7_1.x86_64/include/linux</pElem>
+            <pElem>/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.79-2.5.5.1.el7_1.x86_64/include</pElem>
+            <pElem>../src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>BOOST_SYSTEM_NO_DEPRECATED</Elem>
+          </preprocessorList>
+        </ccTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsiggui-native.${CND_DLIB_EXT}</output>
+          <linkerAddLib>
+            <pElem>/usr/lib64</pElem>
+          </linkerAddLib>
+          <commandLine>-lfftw3 -lfftw3f</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="../src/core/byteswap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/datatypeconverter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/datatypeconverter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/fileinfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/fileinfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/filesource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/filesource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/sigguinative.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_SigGuiController.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_SigGuiNative.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_properties_SampleFormat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_properties_WaveFileProperties.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_spectrum_SpectrumParameters.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_spectrum_SpectrumTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_timeseries_TimeseriesParameters.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_timeseries_TimeseriesTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/jni/jniwrapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/jni/jniwrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/properties/SampleFormat.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/properties/SampleFormat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/properties/WaveFileProperties.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/properties/WaveFileProperties.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/signal/fft.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/signal/fft.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/signal/fftwindows.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/signal/fftwindows.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumjni.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumsink.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumsink.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriesjni.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriessink.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriessink.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utility/math.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefile.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+    <conf name="Release" type="2">
+      <toolsSet>
+        <compilerSet>default</compilerSet>
+        <dependencyChecking>true</dependencyChecking>
+        <rebuildPropChanged>false</rebuildPropChanged>
+      </toolsSet>
+      <compileType>
+        <cTool>
+          <developmentMode>5</developmentMode>
+        </cTool>
+        <ccTool>
+          <developmentMode>5</developmentMode>
+          <architecture>2</architecture>
+          <incDir>
+            <pElem>/usr/include/boost</pElem>
+            <pElem>/usr/include</pElem>
+            <pElem>/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.79-2.5.5.1.el7_1.x86_64/include/linux</pElem>
+            <pElem>/usr/lib/jvm/java-1.7.0-openjdk-1.7.0.79-2.5.5.1.el7_1.x86_64/include</pElem>
+            <pElem>../src</pElem>
+          </incDir>
+          <preprocessorList>
+            <Elem>BOOST_SYSTEM_NO_DEPRECATED</Elem>
+          </preprocessorList>
+          <useLinkerLibraries>false</useLinkerLibraries>
+          <warningLevel>2</warningLevel>
+        </ccTool>
+        <fortranCompilerTool>
+          <developmentMode>5</developmentMode>
+        </fortranCompilerTool>
+        <asmTool>
+          <developmentMode>5</developmentMode>
+        </asmTool>
+        <linkerTool>
+          <output>${CND_DISTDIR}/${CND_CONF}/${CND_PLATFORM}/libsiggui-native.${CND_DLIB_EXT}</output>
+          <linkerAddLib>
+            <pElem>/usr/lib64</pElem>
+          </linkerAddLib>
+          <commandLine>-lfftw3 -lfftw3f</commandLine>
+        </linkerTool>
+      </compileType>
+      <item path="../src/core/byteswap.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/datatypeconverter.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/datatypeconverter.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/fileinfo.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/fileinfo.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/filesource.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/core/filesource.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/core/sigguinative.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_SigGuiController.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_SigGuiNative.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_properties_SampleFormat.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_properties_WaveFileProperties.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_spectrum_SpectrumParameters.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_spectrum_SpectrumTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_timeseries_TimeseriesParameters.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/javah/siggui_timeseries_TimeseriesTask.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/jni/jniwrapper.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/jni/jniwrapper.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/properties/SampleFormat.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/properties/SampleFormat.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/properties/WaveFileProperties.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/properties/WaveFileProperties.h"
+            ex="false"
+            tool="3"
+            flavor2="0">
+      </item>
+      <item path="../src/signal/fft.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/signal/fft.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/signal/fftwindows.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/signal/fftwindows.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumjni.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumsink.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/spectrum/spectrumsink.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriesjni.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriessink.cpp"
+            ex="false"
+            tool="1"
+            flavor2="0">
+      </item>
+      <item path="../src/timeseries/timeseriessink.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/utility/math.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefile.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefile.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefunctions.cpp" ex="false" tool="1" flavor2="0">
+      </item>
+      <item path="../src/wave/wavefunctions.h" ex="false" tool="3" flavor2="0">
+      </item>
+    </conf>
+  </confs>
+</configurationDescriptor>

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{BAF73355-3743-44C1-AB26-0A8169DA59AC}</ProjectGuid>
+    <RootNamespace>sigguinative</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>false</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <WholeProgramOptimization>PGOptimize</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <TargetExt>.dll</TargetExt>
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>%JAVA_HOME%\include;%JAVA_HOME%\include\win32;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <IncludePath>%JAVA_HOME%\include;%JAVA_HOME%\include\win32;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <AdditionalIncludeDirectories>..\..\src;C:\Program Files\boost\boost_1_57_0;C:\Program Files\fftw;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+      <FloatingPointModel>Strict</FloatingPointModel>
+      <PreprocessorDefinitions>NOMINMAX;BOOST_SYSTEM_NO_DEPRECATED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files\fftw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfftw3-3.lib;libfftw3f-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <AdditionalIncludeDirectories>..\..\src;C:\Program Files\boost\boost_1_57_0;C:\Program Files\fftw;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>NOMINMAX;BOOST_SYSTEM_NO_DEPRECATED;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files\fftw;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libfftw3-3.lib;libfftw3f-3.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\src\core\byteswap.h" />
+    <ClInclude Include="..\..\src\core\datatypeconverter.h" />
+    <ClInclude Include="..\..\src\core\fileinfo.h" />
+    <ClInclude Include="..\..\src\core\filesource.h" />
+    <ClInclude Include="..\..\src\javah\siggui_properties_SampleFormat.h" />
+    <ClInclude Include="..\..\src\javah\siggui_properties_WaveFileProperties.h" />
+    <ClInclude Include="..\..\src\javah\siggui_SigGuiController.h" />
+    <ClInclude Include="..\..\src\javah\siggui_SigGuiNative.h" />
+    <ClInclude Include="..\..\src\javah\siggui_spectrum_SpectrumParameters.h" />
+    <ClInclude Include="..\..\src\javah\siggui_spectrum_SpectrumTask.h" />
+    <ClInclude Include="..\..\src\javah\siggui_timeseries_TimeseriesParameters.h" />
+    <ClInclude Include="..\..\src\javah\siggui_timeseries_TimeseriesTask.h" />
+    <ClInclude Include="..\..\src\jni\jniwrapper.h" />
+    <ClInclude Include="..\..\src\properties\SampleFormat.h" />
+    <ClInclude Include="..\..\src\properties\WaveFileProperties.h" />
+    <ClInclude Include="..\..\src\signal\fft.h" />
+    <ClInclude Include="..\..\src\signal\fftwindows.h" />
+    <ClInclude Include="..\..\src\spectrum\spectrumsink.h" />
+    <ClInclude Include="..\..\src\timeseries\timeseriessink.h" />
+    <ClInclude Include="..\..\src\utility\math.h" />
+    <ClInclude Include="..\..\src\wave\wavefile.h" />
+    <ClInclude Include="..\..\src\wave\wavefunctions.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\src\core\datatypeconverter.cpp" />
+    <ClCompile Include="..\..\src\core\fileinfo.cpp" />
+    <ClCompile Include="..\..\src\core\filesource.cpp" />
+    <ClCompile Include="..\..\src\core\sigguinative.cpp" />
+    <ClCompile Include="..\..\src\jni\jniwrapper.cpp" />
+    <ClCompile Include="..\..\src\properties\SampleFormat.cpp" />
+    <ClCompile Include="..\..\src\properties\WaveFileProperties.cpp" />
+    <ClCompile Include="..\..\src\signal\fft.cpp" />
+    <ClCompile Include="..\..\src\signal\fftwindows.cpp" />
+    <ClCompile Include="..\..\src\spectrum\spectrumjni.cpp" />
+    <ClCompile Include="..\..\src\spectrum\spectrumsink.cpp" />
+    <ClCompile Include="..\..\src\timeseries\timeseriesjni.cpp" />
+    <ClCompile Include="..\..\src\timeseries\timeseriessink.cpp" />
+    <ClCompile Include="..\..\src\wave\wavefile.cpp" />
+    <ClCompile Include="..\..\src\wave\wavefunctions.cpp" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
