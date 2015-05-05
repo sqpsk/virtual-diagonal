@@ -7,6 +7,6 @@ import zplot.utility.ZGraphics2D;
 
 public interface IPlotter {
 
-    void paintComponent(
-	    ZGraphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas);
+	void paintComponent(
+			ZGraphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas);
 }

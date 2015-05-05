@@ -5,22 +5,22 @@ import zplot.utility.Interval;
 
 public interface IPlotAxisSupport {
 
-    String getUnits();
+	String getUnits();
 
-    void setUnits(String units);
+	void setUnits(String units);
 
-    String formatAxisLabel(double d);
+	String formatAxisLabel(double d);
 
-    String formatPlotLabel(double d);
+	String formatPlotLabel(double d);
 
-    String formatDelta(double d);
+	String formatDelta(double d);
 
-    String formatTitle(String title);
+	String formatTitle(String title);
 
-    void init(Graphics2D g, int sizePx, Interval rangeHz);
+	void init(Graphics2D g, int sizePx, Interval rangeHz);
 
-    double tickStepHz();
+	double tickStepHz();
 
-    double firstTickMultipleHz();
+	double firstTickMultipleHz();
 
 }

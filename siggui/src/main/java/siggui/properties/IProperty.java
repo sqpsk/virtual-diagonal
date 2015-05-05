@@ -2,11 +2,11 @@ package siggui.properties;
 
 public interface IProperty {
 
-    Object value();
+	Object value();
 
-    String displayName();
-    
-    String displayValue();
+	String displayName();
 
-    String units();
+	String displayValue();
+
+	String units();
 }

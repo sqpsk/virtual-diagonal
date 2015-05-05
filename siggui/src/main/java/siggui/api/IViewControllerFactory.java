@@ -2,7 +2,7 @@ package siggui.api;
 
 public interface IViewControllerFactory {
 
-    ISigGuiController getController();
+	ISigGuiController getController();
 
-    ISigGuiView getView();
+	ISigGuiView getView();
 }

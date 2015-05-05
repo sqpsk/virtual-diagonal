@@ -11,21 +11,21 @@ import siggui.properties.SampleRate;
 
 class SpectrumController extends AbstractSigGuiController<SpectrumParameters, SpectrumResult> {
 
-    @Override
-    protected SpectrumParameters newParameters(PropertySet properties) {
-        long sampleCount = properties.get(SampleCountProperty.class).value();
-        SampleFormat sampleFormat = properties.get(SampleFormatProperty.class).value();
-        long sampleRateHz = properties.get(SampleRate.class).value();
-        return new SpectrumParameters(sampleCount, sampleFormat.isComplex, sampleRateHz);
-    }
+	@Override
+	protected SpectrumParameters newParameters(PropertySet properties) {
+		long sampleCount = properties.get(SampleCountProperty.class).value();
+		SampleFormat sampleFormat = properties.get(SampleFormatProperty.class).value();
+		long sampleRateHz = properties.get(SampleRate.class).value();
+		return new SpectrumParameters(sampleCount, sampleFormat.isComplex, sampleRateHz);
+	}
 
-    @Override
-    protected AbstractSigGuiTask<SpectrumParameters, SpectrumResult> newTask(SpectrumParameters parameters) {
-        return new SpectrumTask(parameters);
-    }
+	@Override
+	protected AbstractSigGuiTask<SpectrumParameters, SpectrumResult> newTask(SpectrumParameters parameters) {
+		return new SpectrumTask(parameters);
+	}
 
-    @Override
-    protected void notifyParametersChanged(PropertyChangeEvent pce) {
-        calculate(false);
-    }
+	@Override
+	protected void notifyParametersChanged(PropertyChangeEvent pce) {
+		calculate(false);
+	}
 }

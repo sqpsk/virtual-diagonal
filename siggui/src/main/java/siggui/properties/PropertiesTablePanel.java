@@ -9,19 +9,19 @@ import siggui.utility.ColumnsAutoSizer;
 
 public class PropertiesTablePanel {
 
-    public static JPanel makePropertiesPanel(String[][] rows) {
-        JPanel panel = new JPanel(new GridLayout(1, 0));
-        final JTable table = new JTable(rows, new String[]{"Name", "Value"});
-        table.setFillsViewportHeight(true);
-        table.setTableHeader(null);
-        int totalWidth = ColumnsAutoSizer.sizeColumnsToFit(table);
-        table.setPreferredScrollableViewportSize(new Dimension(totalWidth, rows.length * table.getRowHeight()));
+	public static JPanel makePropertiesPanel(String[][] rows) {
+		JPanel panel = new JPanel(new GridLayout(1, 0));
+		final JTable table = new JTable(rows, new String[]{"Name", "Value"});
+		table.setFillsViewportHeight(true);
+		table.setTableHeader(null);
+		int totalWidth = ColumnsAutoSizer.sizeColumnsToFit(table);
+		table.setPreferredScrollableViewportSize(new Dimension(totalWidth, rows.length * table.getRowHeight()));
 
-        panel.add(new JScrollPane(table));
-        panel.setOpaque(true);
-        return panel;
-    }
+		panel.add(new JScrollPane(table));
+		panel.setOpaque(true);
+		return panel;
+	}
 
-    private PropertiesTablePanel() {
-    }
+	private PropertiesTablePanel() {
+	}
 }

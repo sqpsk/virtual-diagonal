@@ -5,5 +5,5 @@ import zplot.utility.Interval2D;
 
 public interface IPaintable {
 
-    void paintComponent(Graphics2D g, Interval2D canvas);
+	void paintComponent(Graphics2D g, Interval2D canvas);
 }

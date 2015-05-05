@@ -4,5 +4,5 @@ import zplot.data.IOrderedSeries;
 
 public interface IInterpolatingPlotter extends IPlotter {
 
-    Double interpY(IOrderedSeries series, double x);
+	Double interpY(IOrderedSeries series, double x);
 }

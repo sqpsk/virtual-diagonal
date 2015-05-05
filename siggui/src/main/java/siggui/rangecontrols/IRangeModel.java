@@ -4,33 +4,33 @@ import java.beans.PropertyChangeListener;
 
 public interface IRangeModel {
 
-    void addPropertyChangeListener(PropertyChangeListener l);
+	void addPropertyChangeListener(PropertyChangeListener l);
 
-    void removePropertyChangeListener(PropertyChangeListener l);
-    
-    boolean isAdjusting();
-    
-    long getFileSize();
+	void removePropertyChangeListener(PropertyChangeListener l);
 
-    long getMaxSize();
+	boolean isAdjusting();
 
-    long getMinSize();
+	long getFileSize();
 
-    long getBegin();
+	long getMaxSize();
 
-    long getEnd();
+	long getMinSize();
 
-    long getSize();
-    
-    void setRange(long begin, long end);
-    
-    void setBeginSameSizePriorityBegin(long begin);
-    
-    void setEndSameBeginPriorityBegin(long end);
-    
-    void setSizeSameBeginPriorityBegin(long size);
-    
-    void setBeginSameEndPriorityEnd(long begin);
-    
-    void setIsAdjusting(boolean b);
+	long getBegin();
+
+	long getEnd();
+
+	long getSize();
+
+	void setRange(long begin, long end);
+
+	void setBeginSameSizePriorityBegin(long begin);
+
+	void setEndSameBeginPriorityBegin(long end);
+
+	void setSizeSameBeginPriorityBegin(long size);
+
+	void setBeginSameEndPriorityEnd(long begin);
+
+	void setIsAdjusting(boolean b);
 }

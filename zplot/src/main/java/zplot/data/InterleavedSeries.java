@@ -10,130 +10,130 @@ import zplot.utility.ZMath;
  */
 public abstract class InterleavedSeries implements ISeries {
 
-    public static InterleavedSeries.Double makeScatterSeries(double[] interleaved) {
-        assert (interleaved.length & 1) == 0 : "interleaved must have even length";
-        return new InterleavedSeries.Double(interleaved);
-    }
+	public static InterleavedSeries.Double makeScatterSeries(double[] interleaved) {
+		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		return new InterleavedSeries.Double(interleaved);
+	}
 
-    public static InterleavedSeries.Float makeScatterSeries(float[] interleaved) {
-        assert (interleaved.length & 1) == 0 : "interleaved must have even length";
-        return new InterleavedSeries.Float(interleaved);
-    }
-    
-    public static InterleavedSeries.Double makeOrderedSeries(double[] interleaved) {
-        assert (interleaved.length & 1) == 0 : "interleaved must have even length";
-        return new InterleavedSeries.OrderedDouble(interleaved);
-    }
+	public static InterleavedSeries.Float makeScatterSeries(float[] interleaved) {
+		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		return new InterleavedSeries.Float(interleaved);
+	}
 
-    public static InterleavedSeries.Float makeOrderedSeries(float[] interleaved) {
-        assert (interleaved.length & 1) == 0 : "interleaved must have even length";
-        return new InterleavedSeries.OrderedFloat(interleaved);
-    }
+	public static InterleavedSeries.Double makeOrderedSeries(double[] interleaved) {
+		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		return new InterleavedSeries.OrderedDouble(interleaved);
+	}
 
-    public InterleavedSeries(Interval2D range) {
-        this.range = range;
-    }
+	public static InterleavedSeries.Float makeOrderedSeries(float[] interleaved) {
+		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		return new InterleavedSeries.OrderedFloat(interleaved);
+	}
 
-    @Override
-    public Interval2D range() {
-        return range;
-    }
+	public InterleavedSeries(Interval2D range) {
+		this.range = range;
+	}
 
-    @Override
-    public Interval xRange() {
-        return range.x();
-    }
+	@Override
+	public Interval2D range() {
+		return range;
+	}
 
-    @Override
-    public Interval yRange() {
-        return range.y();
-    }
+	@Override
+	public Interval xRange() {
+		return range.x();
+	}
 
-    public int pullBack(double x) {
-        for (int i = 0; i != size(); ++i) {
-            double xx = x(i);
-            if (xx == x) {
-                return i;
-            } else if (xx > x) {
-                return i - 1;
-            }
-        }
-        return 0;
-    }
-    
-    private final Interval2D range;
+	@Override
+	public Interval yRange() {
+		return range.y();
+	}
 
-    public static class Double extends InterleavedSeries {
+	public int pullBack(double x) {
+		for (int i = 0; i != size(); ++i) {
+			double xx = x(i);
+			if (xx == x) {
+				return i;
+			} else if (xx > x) {
+				return i - 1;
+			}
+		}
+		return 0;
+	}
 
-        private Double(double[] interleaved) {
-            super(ZMath.calculateInterleavedRange(interleaved, 0, interleaved.length));
-            this.interleaved = interleaved;
-        }
+	private final Interval2D range;
 
-        @Override
-        public int size() {
-            return interleaved.length / 2;
-        }
+	public static class Double extends InterleavedSeries {
 
-        @Override
-        public boolean isEmpty() {
-            return interleaved.length == 0;
-        }
+		private Double(double[] interleaved) {
+			super(ZMath.calculateInterleavedRange(interleaved, 0, interleaved.length));
+			this.interleaved = interleaved;
+		}
 
-        @Override
-        public double x(int i) {
-            return interleaved[2 * i];
-        }
+		@Override
+		public int size() {
+			return interleaved.length / 2;
+		}
 
-        @Override
-        public double y(int i) {
-            return interleaved[2 * i + 1];
-        }
-        // Data stored in (x, y) interleaved format.
-        private final double[] interleaved;
-    }
+		@Override
+		public boolean isEmpty() {
+			return interleaved.length == 0;
+		}
 
-    public static class OrderedDouble extends InterleavedSeries.Double implements IOrderedSeries {
+		@Override
+		public double x(int i) {
+			return interleaved[2 * i];
+		}
 
-        private OrderedDouble(double[] interleaved) {
-            super(interleaved);
-        }
-    }
+		@Override
+		public double y(int i) {
+			return interleaved[2 * i + 1];
+		}
+		// Data stored in (x, y) interleaved format.
+		private final double[] interleaved;
+	}
 
-    public static class Float extends InterleavedSeries {
+	public static class OrderedDouble extends InterleavedSeries.Double implements IOrderedSeries {
 
-        private Float(float[] interleaved) {
-            super(ZMath.calculateInterleavedRange(interleaved, 0, interleaved.length));
-            this.interleaved = interleaved;
-        }
+		private OrderedDouble(double[] interleaved) {
+			super(interleaved);
+		}
+	}
 
-        @Override
-        public int size() {
-            return interleaved.length / 2;
-        }
+	public static class Float extends InterleavedSeries {
 
-        @Override
-        public boolean isEmpty() {
-            return interleaved.length == 0;
-        }
+		private Float(float[] interleaved) {
+			super(ZMath.calculateInterleavedRange(interleaved, 0, interleaved.length));
+			this.interleaved = interleaved;
+		}
 
-        @Override
-        public double x(int i) {
-            return interleaved[2 * i];
-        }
+		@Override
+		public int size() {
+			return interleaved.length / 2;
+		}
 
-        @Override
-        public double y(int i) {
-            return interleaved[2 * i + 1];
-        }
-        // Data stored in (x, y) interleaved format.
-        private final float[] interleaved;
-    }
+		@Override
+		public boolean isEmpty() {
+			return interleaved.length == 0;
+		}
 
-    public static class OrderedFloat extends InterleavedSeries.Float implements IOrderedSeries {
+		@Override
+		public double x(int i) {
+			return interleaved[2 * i];
+		}
 
-        private OrderedFloat(float[] interleaved) {
-            super(interleaved);
-        }
-    }
+		@Override
+		public double y(int i) {
+			return interleaved[2 * i + 1];
+		}
+		// Data stored in (x, y) interleaved format.
+		private final float[] interleaved;
+	}
+
+	public static class OrderedFloat extends InterleavedSeries.Float implements IOrderedSeries {
+
+		private OrderedFloat(float[] interleaved) {
+			super(interleaved);
+		}
+	}
 }

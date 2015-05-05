@@ -4,7 +4,7 @@ import zplot.plotpanel.PlotPanel;
 
 public interface IPlotTool {
 
-    void add(PlotPanel plot);
+	void add(PlotPanel plot);
 
-    void remove(PlotPanel plot);
+	void remove(PlotPanel plot);
 }
