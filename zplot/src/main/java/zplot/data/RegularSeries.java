@@ -6,42 +6,86 @@ import zplot.utility.IntervalTransform;
 import zplot.utility.ZMath;
 
 /**
- * Represents regularly sampled time-series data.
+ * A regularly sampled time-series. Stores the y-values and the minimum and
+ * maximum x-values. Since the data is assumed to be regularly sampled, the
+ * x-value of each point is calculated from the x-range when required.
  *
+ * The class is abstract but contains two static inner classes
+ * RegularSeries.Double and RegularSeries.Float which hold the y-values in
+ * either double, or float precision, respectively. All constructors are
+ * private, instances are created using one of the static factory methods.
+ *
+ * We allow access to the underlying data array, which presents opportunity for
+ * optimization in the plotting code. Any code accessing this array must promise
+ * not to modify it.
  */
 public abstract class RegularSeries implements IOrderedSeries {
 
-	public static Double makeFromBeginAndStep(double[] data, double xBegin, double xStep) {
-		assert data != null && data.length != 0;
-		return new Double(data, xBegin, xBegin + (data.length - 1) * xStep);
+	public static Double makeFromBeginAndStep(double[] yValues, double xBegin, double xStep) {
+		checkArguments(yValues);
+		if (xStep < 0.0) {
+			throw new IllegalArgumentException("xStep=" + xStep + ", must be >= 0");
+		}
+		return new Double(yValues, xBegin, xBegin + (yValues.length - 1) * xStep);
 	}
 
-	public static Double makeFromBeginAndBack(double[] data, double xBegin, double xBack) {
-		assert data != null && data.length != 0;
-		return new Double(data, xBegin, xBack);
+	public static Double makeFromBeginAndBack(double[] yValues, double xBegin, double xBack) {
+		checkArguments(yValues);
+		if (xBack < xBegin) {
+			throw new IllegalArgumentException("xBegin=" + xBegin + ", xBack=" + xBack + ", must have xBegin <= xBack");
+		}
+		return new Double(yValues, xBegin, xBack);
 	}
 
-	public static Double makeFromBeginAndEnd(double[] data, double xBegin, double xEnd) {
-		assert data != null && data.length != 0;
-		return makeFromBeginAndStep(data, xBegin, (xEnd - xBegin) / data.length);
+	public static Double makeFromBeginAndEnd(double[] yValues, double xBegin, double xEnd) {
+		checkArguments(yValues);
+		if (xEnd <= xBegin) {
+			throw new IllegalArgumentException("xBegin=" + xBegin + ", xEnd=" + xEnd + ", must have xBegin < xEnd");
+		}
+		return makeFromBeginAndStep(yValues, xBegin, (xEnd - xBegin) / yValues.length);
 	}
 
-	public static Float makeFromBeginAndStep(float[] data, double xBegin, double xStep) {
-		assert data != null && data.length != 0;
-		return new Float(data, xBegin, xBegin + (data.length - 1) * xStep);
+	public static Float makeFromBeginAndStep(float[] yValues, double xBegin, double xStep) {
+		checkArguments(yValues);
+		if (xStep < 0.0) {
+			throw new IllegalArgumentException("xStep=" + xStep + ", must be >= 0");
+		}
+		return new Float(yValues, xBegin, xBegin + (yValues.length - 1) * xStep);
 	}
 
-	public static Float makeFromBeginAndBack(float[] data, double xBegin, double xBack) {
-		assert data != null && data.length != 0;
-		return new Float(data, xBegin, xBack);
+	public static Float makeFromBeginAndBack(float[] yValues, double xBegin, double xBack) {
+		checkArguments(yValues);
+		if (xBack < xBegin) {
+			throw new IllegalArgumentException("xBegin=" + xBegin + ", xBack=" + xBack + ", must have xBegin <= xBack");
+		}
+		return new Float(yValues, xBegin, xBack);
 	}
 
-	public static Float makeFromBeginAndEnd(float[] data, double xBegin, double xEnd) {
-		assert data != null && data.length != 0;
-		return makeFromBeginAndStep(data, xBegin, (xEnd - xBegin) / data.length);
+	public static Float makeFromBeginAndEnd(float[] yValues, double xBegin, double xEnd) {
+		checkArguments(yValues);
+		if (xEnd <= xBegin) {
+			throw new IllegalArgumentException("xBegin=" + xBegin + ", xEnd=" + xEnd + ", must have xBegin < xEnd");
+		}
+		return makeFromBeginAndStep(yValues, xBegin, (xEnd - xBegin) / yValues.length);
 	}
 
-	protected RegularSeries(Interval2D range, int size) {
+	private static void checkArguments(double[] yValues) {
+		if (yValues == null) {
+			throw new NullPointerException("yValues cannot be null");
+		} else if (yValues.length == 0) {
+			throw new IllegalArgumentException("yValues cannnot be empty");
+		}
+	}
+
+	private static void checkArguments(float[] yValues) {
+		if (yValues == null) {
+			throw new NullPointerException("yValues cannot be null");
+		} else if (yValues.length == 0) {
+			throw new IllegalArgumentException("yValues cannnot be empty");
+		}
+	}
+
+	private RegularSeries(Interval2D range, int size) {
 		this.range = range;
 		this.scale = size != 0 ? size - 1 : 1;
 	}

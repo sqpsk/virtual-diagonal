@@ -5,32 +5,53 @@ import zplot.utility.Interval2D;
 import zplot.utility.ZMath;
 
 /**
- * Represents irregularly sampled time-series data, or x-y scatter data.
+ * An irregularly sampled time-series, or x-y scatter data. The x and y
+ * coordinate values of points are stored interleaved in an array.
  *
+ * The class is abstract but contains two static inner classes
+ * InterleavedSeries.Double and InterleavedSeries.Float which store values in
+ * either double, or float precision, respectively. All constructors are
+ * private, instances are created using one of the static factory methods.
+ *
+ * We allow access to the underlying data array, which presents opportunity for
+ * optimization in the plotting code. Any code accessing this array must promise
+ * not to modify it.
  */
 public abstract class InterleavedSeries implements ISeries {
 
 	public static InterleavedSeries.Double makeScatterSeries(double[] interleaved) {
-		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		checkArguments(interleaved);
 		return new InterleavedSeries.Double(interleaved);
 	}
 
 	public static InterleavedSeries.Float makeScatterSeries(float[] interleaved) {
-		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		checkArguments(interleaved);
 		return new InterleavedSeries.Float(interleaved);
 	}
 
 	public static InterleavedSeries.Double makeOrderedSeries(double[] interleaved) {
-		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		checkArguments(interleaved);
 		return new InterleavedSeries.OrderedDouble(interleaved);
 	}
 
 	public static InterleavedSeries.Float makeOrderedSeries(float[] interleaved) {
-		assert (interleaved.length & 1) == 0 : "interleaved must have even length";
+		checkArguments(interleaved);
 		return new InterleavedSeries.OrderedFloat(interleaved);
 	}
 
-	public InterleavedSeries(Interval2D range) {
+	private static void checkArguments(double[] interleaved) {
+		if ((interleaved.length & 1) == 0) {
+			throw new IllegalArgumentException("interleaved must have even length");
+		}
+	}
+
+	private static void checkArguments(float[] interleaved) {
+		if ((interleaved.length & 1) == 0) {
+			throw new IllegalArgumentException("interleaved must have even length");
+		}
+	}
+
+	private InterleavedSeries(Interval2D range) {
 		this.range = range;
 	}
 

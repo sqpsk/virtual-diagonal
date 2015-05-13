@@ -3,15 +3,15 @@ package zplot.utility;
 public class Interval {
 
 	public static Interval invalid() {
-		return new Interval(java.lang.Double.MAX_VALUE, -java.lang.Double.MAX_VALUE);
+		return new Interval(Double.MAX_VALUE, -Double.MAX_VALUE);
 	}
 
 	public static Interval envelope(Interval a, Interval b) {
-		return new Interval(java.lang.Math.min(a.begin, b.begin), java.lang.Math.max(a.end, b.end));
+		return new Interval(Math.min(a.begin, b.begin), Math.max(a.end, b.end));
 	}
 
 	public static Interval intersection(Interval a, Interval b) {
-		return new Interval(java.lang.Math.max(a.begin, b.begin), java.lang.Math.min(a.end, b.end));
+		return new Interval(Math.max(a.begin, b.begin), Math.min(a.end, b.end));
 	}
 
 	public Interval(double begin, double end) {
@@ -53,8 +53,8 @@ public class Interval {
 	@Override
 	public int hashCode() {
 		int hash = 7;
-		hash = 97 * hash + (int) (java.lang.Double.doubleToLongBits(this.begin) ^ (java.lang.Double.doubleToLongBits(this.begin) >>> 32));
-		hash = 97 * hash + (int) (java.lang.Double.doubleToLongBits(this.end) ^ (java.lang.Double.doubleToLongBits(this.end) >>> 32));
+		hash = 97 * hash + (int) (Double.doubleToLongBits(this.begin) ^ (Double.doubleToLongBits(this.begin) >>> 32));
+		hash = 97 * hash + (int) (Double.doubleToLongBits(this.end) ^ (Double.doubleToLongBits(this.end) >>> 32));
 		return hash;
 	}
 

@@ -45,8 +45,8 @@ public abstract class LinePlotter implements IInterpolatingPlotter {
 			double dataBegin = canvasToDataX.transform(canvas.x().begin());
 			double dataEnd = canvasToDataX.transform(canvas.x().end());
 
-			int dataIndexBegin = toIndex(dataBegin, series.range().x(), series.size());
-			int dataIndexEnd = toIndex(dataEnd, series.range().x(), series.size());
+			int dataIndexBegin = toIndex(dataBegin, series.xRange(), series.size());
+			int dataIndexEnd = toIndex(dataEnd, series.xRange(), series.size());
 			int dataSize = dataIndexEnd - dataIndexBegin;
 
 			if (dataSize >= 4 * canvas.width()) {
