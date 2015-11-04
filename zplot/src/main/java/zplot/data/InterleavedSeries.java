@@ -40,13 +40,13 @@ public abstract class InterleavedSeries implements ISeries {
 	}
 
 	private static void checkArguments(double[] interleaved) {
-		if ((interleaved.length & 1) == 0) {
+		if ((interleaved.length & 1) == 1) {
 			throw new IllegalArgumentException("interleaved must have even length");
 		}
 	}
 
 	private static void checkArguments(float[] interleaved) {
-		if ((interleaved.length & 1) == 0) {
+		if ((interleaved.length & 1) == 1) {
 			throw new IllegalArgumentException("interleaved must have even length");
 		}
 	}
