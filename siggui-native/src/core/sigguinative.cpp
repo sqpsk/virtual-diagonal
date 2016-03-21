@@ -71,9 +71,9 @@ JNIEXPORT jobject JNICALL Java_siggui_SigGuiController_readWavHeader
 
 	int channelCount = wf.fmt.nChannels;
 	int sampleSizeBytes = (wf.fmt.nBlockAlign / channelCount);
-	int headerSizeBytes = dataOffsetBytes(wf);
+	size_t headerSizeBytes = dataOffsetBytes(wf);
 	size_t fileSize = getFileSize(ifs);
-	int sampleCount = (fileSize - headerSizeBytes) / (channelCount * sampleSizeBytes);
+	size_t sampleCount = (fileSize - headerSizeBytes) / (channelCount * sampleSizeBytes);
 
 	jint jSampleType;
 	if (wf.fmt.wFormatTag == FmtChunk::WAVE_FORMAT_EXTENSIBLE)

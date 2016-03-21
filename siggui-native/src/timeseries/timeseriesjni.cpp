@@ -68,7 +68,7 @@ void TimeseriesResultClass::initImpl(JNIEnv* env)
 void TimeseriesResultClass::setFields(
 	JNIEnv* env, jobject obj, jint keyValue, const std::vector<float>& buf, jlong beginValue, jlong endValue) const
 {
-	setArrayMember(env, obj, data, &buf[0], buf.size());
+	setArrayMember(env, obj, data, &buf[0], static_cast<jsize>(buf.size()));
 	setMember(env, obj, key, keyValue);
 	setMember(env, obj, begin, beginValue);
 	setMember(env, obj, end, endValue);
@@ -76,7 +76,7 @@ void TimeseriesResultClass::setFields(
 
 void TimeseriesResultClass::setAdditionalFields(JNIEnv* env, jobject obj, jint keyValue, const std::vector<float>& buf) const
 {
-	setArrayMember(env, obj, data1, &buf[0], buf.size());
+	setArrayMember(env, obj, data1, &buf[0], static_cast<jsize>(buf.size()));
 	setMember(env, obj, key1, keyValue);
 }
 

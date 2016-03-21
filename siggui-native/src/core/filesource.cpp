@@ -1,6 +1,7 @@
 #include "filesource.h"
-#include <iomanip>
+#include <algorithm>
 #include <cassert>
+#include <iomanip>
 
 FileSource::FileSource(const char* filename, size_t beginByte, size_t endByte) :
 	_ifs(filename, std::ios::binary),
@@ -11,7 +12,6 @@ FileSource::FileSource(const char* filename, size_t beginByte, size_t endByte) :
 
 FileSource::~FileSource()
 {
-	assert(_maxOutSizeBytes == 0);
 	assert(_maxOutSizeBytes == 0);
 }
 

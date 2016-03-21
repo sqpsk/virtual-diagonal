@@ -38,7 +38,7 @@ void setMember(JNIEnv* env, jobject obj, jfieldID id, jtype value)
 }
 
 template <typename jtype> inline
-void setArrayMember(JNIEnv* env, jobject obj, jfieldID id, const jtype* values, size_t size)
+void setArrayMember(JNIEnv* env, jobject obj, jfieldID id, const jtype* values, jsize size)
 {
 	jfloatArray arr = env->NewFloatArray(size);
 	// TODO traits stuff

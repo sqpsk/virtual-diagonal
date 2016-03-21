@@ -1,5 +1,5 @@
 #ifndef FFT_WINDOWS_H
-#define	FFT_WINDOWS_H
+#define FFT_WINDOWS_H
 
 #include <cmath>
 
@@ -22,7 +22,7 @@ void fillTriangularWindow(T* out, int size)
 	reflect(out, size);
 }
 
-#define M_1_SQRT2PI	0.3989422804143
+#define M_1_SQRT2PI 0.3989422804143
 
 template <typename T>
 void fillGaussWindow(T* out, int size, double sigma) 

@@ -59,7 +59,7 @@ void SpectrumResultClass::initImpl(JNIEnv* env)
 
 void SpectrumResultClass::setFields(JNIEnv* env, jobject obj, const SpectrumResult& r) const 
 {
-	setArrayMember(env, obj, power, reinterpret_cast<const jfloat*> (&r.powerDb[0]), r.powerDb.size());
+	setArrayMember(env, obj, power, reinterpret_cast<const jfloat*> (&r.powerDb[0]), static_cast<jsize>(r.powerDb.size()));
 }
 
 void spectrumInit(JNIEnv* env) 
@@ -99,10 +99,10 @@ JNIEXPORT jobject JNICALL Java_siggui_spectrum_SpectrumTask_calculateNative(
 	switch (window)
 	{
 	default:
-		fillGaussWindow(&windowFunction[0], windowFunction.size(), 0.2);
+		fillGaussWindow(&windowFunction[0], static_cast<int>(windowFunction.size()), 0.2);
 		break;
 	case siggui_spectrum_SpectrumParameters_WINDOW_TRIANGLE:
-		fillTriangularWindow(&windowFunction[0], windowFunction.size());
+		fillTriangularWindow(&windowFunction[0], static_cast<int>(windowFunction.size()));
 		break;
 	case siggui_spectrum_SpectrumParameters_WINDOW_RECTANGLE:
 		std::fill(&windowFunction[0], &windowFunction[0] + windowFunction.size(), 1.0f);

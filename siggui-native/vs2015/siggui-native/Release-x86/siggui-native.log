@@ -1,0 +1,19 @@
+﻿  datatypeconverter.cpp
+  fileinfo.cpp
+  filesource.cpp
+  sigguinative.cpp
+  jniwrapper.cpp
+  SampleFormat.cpp
+  WaveFileProperties.cpp
+  fft.cpp
+  fftwindows.cpp
+  spectrumjni.cpp
+  spectrumsink.cpp
+  timeseriesjni.cpp
+  timeseriessink.cpp
+  wavefile.cpp
+  wavefunctions.cpp
+     Creating library C:\Users\pr\dev\virtual-diagonal\siggui-native\vs2015\Release-x86\siggui-native.lib and object C:\Users\pr\dev\virtual-diagonal\siggui-native\vs2015\Release-x86\siggui-native.exp
+  Generating code
+  Finished generating code
+  siggui-native.vcxproj -> C:\Users\pr\dev\virtual-diagonal\siggui-native\vs2015\Release-x86\siggui-native.dll
