@@ -21,16 +21,10 @@ public class SwingFuns {
 	}
 
 	public static void hideTabs(JTabbedPane tabbedPane) {
-		// Turn off show tabs on tabbed pane
-		final boolean showTabsHeader = false;
 		tabbedPane.setUI(new BasicTabbedPaneUI() {
 			@Override
 			protected int calculateTabAreaHeight(int tabPlacement, int horizRunCount, int maxTabHeight) {
-				if (showTabsHeader) {
-					return super.calculateTabAreaHeight(tabPlacement, horizRunCount, maxTabHeight);
-				} else {
-					return 0;
-				}
+				return 0;
 			}
 		});
 	}

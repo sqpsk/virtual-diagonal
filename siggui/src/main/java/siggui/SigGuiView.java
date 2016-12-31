@@ -130,6 +130,7 @@ class SigGuiView {
 			controller.showView(i);
 		}
 	};
+
 	private final SigGuiController controller;
 	private final JFrame frame = new JFrame();
 	private final JTabbedPane tabbedPane = new JTabbedPane();
