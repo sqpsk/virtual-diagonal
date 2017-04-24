@@ -19,11 +19,11 @@ public class RangeTextFields extends JPanel {
 		add(sizeField);
 	}
 
-	public IRangeModel getModel() {
+	public RangeModel getModel() {
 		return model;
 	}
 
-	public void setModel(IRangeModel model) {
+	public void setModel(RangeModel model) {
 		if (this.model != null) {
 			this.model.removePropertyChangeListener(modelChangeListener);
 			removeControlListeners();
@@ -99,5 +99,5 @@ public class RangeTextFields extends JPanel {
 	private final JFormattedTextField beginField = new JFormattedTextField();
 	private final JFormattedTextField endField = new JFormattedTextField();
 	private final JFormattedTextField sizeField = new JFormattedTextField();
-	private IRangeModel model = null;
+	private RangeModel model = null;
 }

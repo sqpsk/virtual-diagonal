@@ -13,22 +13,23 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
-import zplot.data.IOrderedSeries;
-import zplot.data.ISeries;
 import zplot.data.SeriesCollection;
 import zplot.plotpanel.PlotPanel;
-import zplot.plotpanel.IPaintable;
-import zplot.plotter.IInterpolatingPlotter;
 import zplot.transformers.FixedScaleTransformer;
-import zplot.transformers.IDataTransformer;
 import zplot.transformers.SquareAxisTransformer;
 import zplot.utility.Interval;
 import zplot.utility.Interval2D;
 import zplot.utility.PriorityMouseListener;
 import zplot.utility.PriorityMouseMotionListener;
 import zplot.utility.ZMath;
+import zplot.data.Series;
+import zplot.data.OrderedSeries;
+import zplot.plotpanel.Paintable;
+import zplot.plotter.InterpolatingPlotter;
+import zplot.transformers.DataTransformer;
+import zplot.utility.ColorUtils;
 
-public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListener, IPlotTool, IPaintable, PropertyChangeListener {
+public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListener, PlotTool, Paintable, PropertyChangeListener {
 
 	/**
 	 * Add zoom functionality to the plot. The ZoomTool holds a reference
@@ -56,6 +57,11 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 	@Override
 	public void add(PlotPanel plot) {
 		this.plot = plot;
+		if (plot.getPlotBackground() != null) {
+			zoomColor = ColorUtils.getContrastColor(plot.getPlotBackground());
+		} else {
+			zoomColor = Color.BLACK;
+		}
 		plot.addPaintable(this);
 		plot.addPropertyChangeListener(this);
 		plot.addMouseListener(this, false);
@@ -161,7 +167,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 	// PropertyChangeListener interface
 	@Override
 	public void propertyChange(PropertyChangeEvent pce) {
-		if (pce.getPropertyName().equals(PlotPanel.NEW_DATA)) {
+		if (pce.getPropertyName().equals(PlotPanel.NEW_DATA_PROPERTY)) {
 			if (pce.getNewValue() != current) {
 				notifyNewData();
 			}
@@ -232,8 +238,8 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 		boolean supportsXzooming = true;
 		for (int i = 0; i != sc.size(); ++i) {
 			SeriesCollection.Entry e = sc.get(i);
-			supportsXzooming &= e.plotter instanceof IInterpolatingPlotter
-					&& e.series instanceof IOrderedSeries;
+			supportsXzooming &= e.getPlotter() instanceof InterpolatingPlotter
+					&& e.getSeries() instanceof OrderedSeries;
 		}
 
 		if (origional instanceof SquareAxisTransformer) {
@@ -257,7 +263,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 			return;
 		}
 		Interval2D dataZoom = plot.canvasToData().transformFlipY(zr);
-		IDataTransformer trans = impl.getNewDataTransformer(dataZoom);
+		DataTransformer trans = impl.getNewDataTransformer(dataZoom);
 		// Gaurd against NEW_DATA property change
 		current = trans;
 		plot.setDataTransformer(trans);
@@ -269,7 +275,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 		double yMax = -java.lang.Double.MAX_VALUE;
 		for (int j = 0; j != sc.size(); ++j) {
 			SeriesCollection.Entry e = sc.get(j);
-			ISeries series = e.series;
+			Series series = e.getSeries();
 			for (int i = 0; i != series.size(); ++i) {
 				double x = series.x(i);
 				double y = series.y(i);
@@ -279,8 +285,8 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 				}
 			}
 
-			IInterpolatingPlotter ip = (IInterpolatingPlotter) e.plotter;
-			IOrderedSeries os = (IOrderedSeries) series;
+			InterpolatingPlotter ip = (InterpolatingPlotter) e.getPlotter();
+			OrderedSeries os = (OrderedSeries) series;
 			Double beginInterp = ip.interpY(os, region.x().begin());
 			if (beginInterp != null) {
 				yMin = Math.min(yMin, beginInterp);
@@ -299,7 +305,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 
 		Interval2D getZoomRegion(Interval2D canvas, int minX, int maxX, int minY, int maxY);
 
-		IDataTransformer getNewDataTransformer(Interval2D dataZoom);
+		DataTransformer getNewDataTransformer(Interval2D dataZoom);
 
 		void paintComponent(Graphics2D g2, Interval2D zr);
 	}
@@ -318,7 +324,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 		}
 
 		@Override
-		public IDataTransformer getNewDataTransformer(Interval2D dataZoom) {
+		public DataTransformer getNewDataTransformer(Interval2D dataZoom) {
 			Interval zoomYRange = calculateYRange(plot.getSeriesCollection(), dataZoom);
 			return new FixedScaleTransformer(origional, new Interval2D(dataZoom.x(), zoomYRange));
 		}
@@ -340,7 +346,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 		}
 
 		@Override
-		public IDataTransformer getNewDataTransformer(Interval2D dataZoom) {
+		public DataTransformer getNewDataTransformer(Interval2D dataZoom) {
 			return new FixedScaleTransformer(origional, dataZoom);
 		}
 	}
@@ -362,7 +368,7 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 		}
 
 		@Override
-		public IDataTransformer getNewDataTransformer(Interval2D dataZoom) {
+		public DataTransformer getNewDataTransformer(Interval2D dataZoom) {
 			return new FixedScaleTransformer(origional, dataZoom);
 		}
 	}
@@ -373,8 +379,8 @@ public class ZoomTool implements PriorityMouseListener, PriorityMouseMotionListe
 	private boolean unzoomShowing = false;
 	private Color zoomColor = Color.BLACK;
 	private PlotPanel plot = null;
-	private IDataTransformer origional = null;
-	private IDataTransformer current = null;
+	private DataTransformer origional = null;
+	private DataTransformer current = null;
 	private Impl impl = null;
 	private Point dragBegin = null;
 	private Point dragEnd = null;

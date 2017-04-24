@@ -15,7 +15,6 @@ import javax.swing.JPopupMenu;
 import zplot.data.SeriesCollection;
 import zplot.data.SeriesCollectionBuilder;
 import zplot.transformers.FillCanvasTransformer;
-import zplot.transformers.IDataTransformer;
 import zplot.utility.Interval2D;
 import zplot.utility.Interval2DTransform;
 import zplot.utility.IntervalTransform;
@@ -25,20 +24,15 @@ import zplot.utility.PriorityMouseListenerDelegate;
 import zplot.utility.PriorityMouseMotionListener;
 import zplot.utility.PriorityMouseMotionListenerDelegate;
 import zplot.utility.ZGraphics2D;
+import zplot.transformers.DataTransformer;
 
 public class PlotPanel extends JComponent {
 
-	public static final String NEW_DATA = "NEW_DATA";
-	public static final String NEW_REGION_CALCULATOR = "NEW_REGION_CALCULATOR";
-	public static final String NEW_PLOT = "NEW_PLOT";
-	public static final String PAINTABLE_ADDED = "PAINTABLE_ADDED";
-	public static final String PAINTABLE_REMOVED = "PAINTABLE_REMOVED";
-
-	public Graphics2D getGraphics2D() {
-		Graphics2D g2 = (Graphics2D) getGraphics();
-		init(g2);
-		return g2;
-	}
+	public static final String NEW_DATA_PROPERTY = "NEW_DATA";
+	public static final String NEW_REGION_CALCULATOR_PROPERTY = "NEW_REGION_CALCULATOR";
+	public static final String NEW_PLOT_PROPERTY = "NEW_PLOT";
+	public static final String PAINTABLE_ADDED_PROPERTY = "PAINTABLE_ADDED";
+	public static final String PAINTABLE_REMOVED_PROPERTY = "PAINTABLE_REMOVED";
 
 	@Override
 	public Dimension getPreferredSize() {
@@ -48,30 +42,30 @@ public class PlotPanel extends JComponent {
 		return new Dimension(600, 300);
 	}
 
-	public void init(SeriesCollection seriesCollection, IDataTransformer transformer) {
-		SeriesCollection oldSc = this.sc;
-		IDataTransformer oldRc = this.transformer;
-		this.sc = seriesCollection;
+	public void init(SeriesCollection seriesCollection, DataTransformer transformer) {
+		SeriesCollection oldSeriesCollection = this.seriesCollection;
+		DataTransformer oldTransformer = this.transformer;
+		this.seriesCollection = seriesCollection;
 		this.transformer = transformer;
 		reset();
-		firePropertyChange(NEW_DATA, oldSc, seriesCollection);
-		firePropertyChange(NEW_REGION_CALCULATOR, oldRc, transformer);
+		firePropertyChange(NEW_DATA_PROPERTY, oldSeriesCollection, seriesCollection);
+		firePropertyChange(NEW_REGION_CALCULATOR_PROPERTY, oldTransformer, transformer);
 	}
 
 	public SeriesCollection getSeriesCollection() {
-		return sc;
+		return seriesCollection;
 	}
 
 	public void setSeriesCollection(SeriesCollection seriesCollection) {
 		init(seriesCollection, transformer);
 	}
 
-	public IDataTransformer getDataTransformer() {
+	public DataTransformer getDataTransformer() {
 		return transformer;
 	}
 
-	public void setDataTransformer(IDataTransformer transformer) {
-		init(sc, transformer);
+	public void setDataTransformer(DataTransformer transformer) {
+		init(seriesCollection, transformer);
 	}
 
 	public Color getPlotBackground() {
@@ -86,14 +80,14 @@ public class PlotPanel extends JComponent {
 		return axis;
 	}
 
-	public void addPaintable(IPaintable paintable) {
+	public void addPaintable(Paintable paintable) {
 		paintables.add(paintable);
-		firePropertyChange(PAINTABLE_ADDED, null, paintable);
+		firePropertyChange(PAINTABLE_ADDED_PROPERTY, null, paintable);
 	}
 
-	public void removePaintable(IPaintable paintable) {
+	public void removePaintable(Paintable paintable) {
 		paintables.remove(paintable);
-		firePropertyChange(PAINTABLE_REMOVED, null, paintable);
+		firePropertyChange(PAINTABLE_REMOVED_PROPERTY, null, paintable);
 	}
 
 	public void reset() {
@@ -111,11 +105,11 @@ public class PlotPanel extends JComponent {
 	}
 
 	public Interval2D getUsedPlotCanvas() {
-		return usedCanvas(sc.envelope(), getPlotCanvas());
+		return usedCanvas(seriesCollection.envelope(), getPlotCanvas());
 	}
 
 	public Interval2DTransform dataToCanvas() {
-		return transformer.dataToCanvas(sc.envelope(), getPlotCanvas());
+		return transformer.dataToCanvas(seriesCollection.envelope(), getPlotCanvas());
 	}
 
 	public Interval2DTransform canvasToData() {
@@ -165,13 +159,19 @@ public class PlotPanel extends JComponent {
 		}
 	}
 
+	public Graphics2D getGraphics2D() {
+		Graphics2D g2 = (Graphics2D) getGraphics();
+		init(g2);
+		return g2;
+	}
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		final Rectangle vr = getVisibleRect();
 		if (basePlot == null || basePlot.getWidth() != vr.width || basePlot.getHeight() != vr.height) {
 			paintBasePlotImage();
-			firePropertyChange(NEW_PLOT, null, basePlot);
+			firePropertyChange(NEW_PLOT_PROPERTY, null, basePlot);
 		}
 
 		// Draw the plot onto g.
@@ -191,7 +191,7 @@ public class PlotPanel extends JComponent {
 			init(g2);
 
 			// Set an approximate axis range
-			axis.setAxisRange(sc.envelope());
+			axis.setAxisRange(seriesCollection.envelope());
 			axis.clearAxisSize();
 
 			Interval2D plotCanvas = getPlotCanvas(axisCanvas, g2);
@@ -207,7 +207,7 @@ public class PlotPanel extends JComponent {
 			if (plotCanvas != axisCanvas) {
 				axis.paintComponent(g2, axisCanvas);
 			}
-			Interval2DTransform dataToCanvas = transformer.dataToCanvas(sc.envelope(), plotCanvas);
+			Interval2DTransform dataToCanvas = transformer.dataToCanvas(seriesCollection.envelope(), plotCanvas);
 			paintSeriesCollection(g2, dataToCanvas.x(), dataToCanvas.y(), plotCanvas);
 
 			this.basePlot = image;
@@ -218,15 +218,16 @@ public class PlotPanel extends JComponent {
 	}
 
 	protected void paintSeriesCollection(ZGraphics2D g2, IntervalTransform xt, IntervalTransform yt, Interval2D plotCanvas) {
-		for (int i = 0; i != sc.size(); ++i) {
-			SeriesCollection.Entry e = sc.get(i);
-			if (!e.series.isEmpty()) {
-				g2.setClip((int) plotCanvas.x().begin(),
-						(int) plotCanvas.y().begin(),
-						(int) (plotCanvas.width() + 1.0),
-						(int) (plotCanvas.height() + 1.0));
-				e.plotter.paintComponent(g2, e.series, xt, yt, plotCanvas);
+		for (int i = 0; i != seriesCollection.size(); ++i) {
+			SeriesCollection.Entry e = seriesCollection.get(i);
+			if (e.getSeries().size() <= 0) {
+				continue;
 			}
+			g2.setClip((int) plotCanvas.x().begin(),
+					(int) plotCanvas.y().begin(),
+					(int) (plotCanvas.width() + 1.0),
+					(int) (plotCanvas.height() + 1.0));
+			e.getPlotter().paintComponent(g2, e.getSeries(), xt, yt, plotCanvas);
 		}
 	}
 
@@ -283,11 +284,11 @@ public class PlotPanel extends JComponent {
 	}
 	private static final int RIGHT_BORDER_GAP = 15;
 	private static final int TOP_BORDER_GAP = 15;
-	private final ArrayList<IPaintable> paintables = new ArrayList<IPaintable>();
+	private final ArrayList<Paintable> paintables = new ArrayList<Paintable>();
 	private final PlotAxis axis = new PlotAxis();
 	// User settable data
-	private SeriesCollection sc = SeriesCollectionBuilder.emptyCollection(-1.0, 1.0, -1.0, 1.0);
-	private IDataTransformer transformer = new FillCanvasTransformer();
+	private SeriesCollection seriesCollection = SeriesCollectionBuilder.emptyCollection(-1.0, 1.0, -1.0, 1.0);
+	private DataTransformer transformer = new FillCanvasTransformer();
 	private Color plotBackground = null;
 	// Internals
 	private final ImageFactory imageFactory = new ImageFactory();

@@ -9,14 +9,14 @@ import java.awt.event.MouseEvent;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import zplot.plotpanel.PlotPanel;
-import zplot.plotpanel.IPaintable;
 import zplot.utility.Interval2D;
 import zplot.utility.PopupSupport;
 import zplot.utility.PriorityMouseListener;
 import zplot.utility.PriorityMouseMotionListener;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
+import zplot.plotpanel.Paintable;
 
-public abstract class MovableSprite implements PriorityMouseListener, PriorityMouseMotionListener, IPlotTool, IPaintable {
+public abstract class MovableSprite implements PriorityMouseListener, PriorityMouseMotionListener, PlotTool, Paintable {
 
 	public static void setClearPopupMenu(MovableSprite ms) {
 		JPopupMenu popup = new JPopupMenu();
@@ -32,7 +32,7 @@ public abstract class MovableSprite implements PriorityMouseListener, PriorityMo
 				ms.plot.repaint();
 			}
 		};
-		return SwingFuns.makeMenuItem("Clear", l);
+		return SwingUtils.makeMenuItem("Clear", l);
 	}
 
 	public void setComponentPopupMenu(JPopupMenu popup) {

@@ -1,13 +1,13 @@
 package zplot.plotter;
 
 import java.awt.Color;
-import zplot.data.ISeries;
 import zplot.utility.Interval2D;
 import zplot.utility.IntervalTransform;
 import zplot.utility.ZGraphics2D;
 import zplot.utility.ZMath;
+import zplot.data.Series;
 
-public class DotPlotter implements IPlotter {
+public class DotPlotter implements Plotter {
 
 	public DotPlotter(Color color, int size) {
 		this.color = color;
@@ -33,7 +33,7 @@ public class DotPlotter implements IPlotter {
 
 	@Override
 	public void paintComponent(
-			ZGraphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas) {
+			ZGraphics2D g, Series series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas) {
 		g.setColor(color);
 		if (size == 3) {
 			paintDots3x3(g, series, xt, yt, canvas);
@@ -44,7 +44,7 @@ public class DotPlotter implements IPlotter {
 
 	private void paintDots3x3(
 			ZGraphics2D g,
-			ISeries series,
+			Series series,
 			IntervalTransform xt,
 			IntervalTransform yt,
 			Interval2D canvas) {
@@ -59,7 +59,7 @@ public class DotPlotter implements IPlotter {
 
 	private void paintDots(
 			ZGraphics2D g,
-			ISeries series,
+			Series series,
 			IntervalTransform xt,
 			IntervalTransform yt,
 			Interval2D canvas) {

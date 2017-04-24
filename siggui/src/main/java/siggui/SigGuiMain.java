@@ -5,14 +5,12 @@ import java.io.File;
 import java.io.IOException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import siggui.api.ISigGuiController;
-import siggui.api.ISigGuiView;
-import siggui.api.IViewControllerFactory;
 import siggui.utility.Logger;
+import siggui.perspectives.ViewControllerFactory;
+import siggui.perspectives.PerspectiveView;
+import siggui.perspectives.PerspectiveController;
 
 public class SigGuiMain {
-
-	private static final SigGuiNative INSTANCE = new SigGuiNative();
 
 	private static void setLookAndFeel(String laf) {
 		try {
@@ -34,18 +32,20 @@ public class SigGuiMain {
 	}
 
 	public static void main(String args[]) throws IOException, ClassNotFoundException, IllegalAccessException, InstantiationException {
+		SigGuiNative.loadNativeLibrary();
+
 		setLookAndFeel("Nimbus");
 
-		String[] factoryClasses = {
-			"siggui.spectrum.SpectrumFactory",
-			"siggui.timeseries.TimeseriesFactory"
+		String[] perspectiveFactoryClasses = {
+			"siggui.perspectives.spectrum.SpectrumFactory",
+			"siggui.perspectives.timeseries.TimeseriesFactory"
 		};
 
-		ISigGuiController[] controllers = new ISigGuiController[factoryClasses.length];
-		ISigGuiView[] views = new ISigGuiView[factoryClasses.length];
-		for (int i = 0; i != factoryClasses.length; ++i) {
-			Class c = Class.forName(factoryClasses[i]);
-			IViewControllerFactory factory = (IViewControllerFactory) c.newInstance();
+		PerspectiveController[] controllers = new PerspectiveController[perspectiveFactoryClasses.length];
+		PerspectiveView[] views = new PerspectiveView[perspectiveFactoryClasses.length];
+		for (int i = 0; i != perspectiveFactoryClasses.length; ++i) {
+			Class c = Class.forName(perspectiveFactoryClasses[i]);
+			ViewControllerFactory factory = (ViewControllerFactory) c.newInstance();
 			controllers[i] = factory.getController();
 			views[i] = factory.getView();
 		}
@@ -53,7 +53,7 @@ public class SigGuiMain {
 		final SigGuiController controller = new SigGuiController(controllers);
 		final SigGuiView view = new SigGuiView(controller, views);
 		controller.setView(view);
-		controller.showView(0);
+		controller.showPerspective(0);
 
 		if (args.length == 1) {
 			controller.setFile((new File(args[0])).getCanonicalFile());

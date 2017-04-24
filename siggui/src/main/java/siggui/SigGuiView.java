@@ -12,19 +12,19 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JTabbedPane;
-import siggui.api.ISigGuiView;
-import siggui.utility.SwingFuns;
+import siggui.utility.SwingUtils;
+import siggui.perspectives.PerspectiveView;
 
 class SigGuiView {
 
-	SigGuiView(SigGuiController controller, ISigGuiView[] views) {
+	SigGuiView(SigGuiController controller, PerspectiveView[] perspectives) {
 		this.controller = controller;
-		SwingFuns.hideTabs(tabbedPane);
-		for (ISigGuiView v : views) {
+		SwingUtils.hideTabs(tabbedPane);
+		for (PerspectiveView v : perspectives) {
 			tabbedPane.addTab(v.getTitle(), v.toComponent());
 		}
 		frame.setMinimumSize(new Dimension(400, 200));
-		frame.setJMenuBar(makeFileMenuBar(views));
+		frame.setJMenuBar(makeFileMenuBar(perspectives));
 		frame.add(tabbedPane);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		frame.pack();
@@ -39,12 +39,12 @@ class SigGuiView {
 		frame.getJMenuBar().getMenu(0).getItem(1).setEnabled(true);
 	}
 
-	public void showView(int index) {
+	public void showPerspective(int index) {
 		frame.getJMenuBar().getMenu(1).getItem(index).setSelected(true);
 		tabbedPane.setSelectedIndex(index);
 	}
 
-	private JMenuBar makeFileMenuBar(ISigGuiView[] views) {
+	private JMenuBar makeFileMenuBar(PerspectiveView[] views) {
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic('f');
 		{
@@ -127,7 +127,7 @@ class SigGuiView {
 					break;
 				}
 			}
-			controller.showView(i);
+			controller.showPerspective(i);
 		}
 	};
 

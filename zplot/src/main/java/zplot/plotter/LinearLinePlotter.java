@@ -3,10 +3,10 @@ package zplot.plotter;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import zplot.data.IOrderedSeries;
-import zplot.data.ISeries;
 import zplot.utility.IntervalTransform;
 import zplot.utility.ZMath;
+import zplot.data.Series;
+import zplot.data.OrderedSeries;
 
 public class LinearLinePlotter extends LinePlotter {
 
@@ -22,14 +22,14 @@ public class LinearLinePlotter extends LinePlotter {
 	}
 
 	@Override
-	public Double interpY(IOrderedSeries series, double x) {
+	public Double interpY(OrderedSeries series, double x) {
 		if (x < series.xRange().begin() || x > series.xRange().end()) {
 			return null;
 		}
 		return interpY(series, series.pullBack(x), x);
 	}
 
-	private double interpY(ISeries series, int i, double x) {
+	private double interpY(Series series, int i, double x) {
 		double x0 = series.x(i);
 		assert (x0 <= x);
 		double y0 = series.y(i);
@@ -48,7 +48,7 @@ public class LinearLinePlotter extends LinePlotter {
 
 	@Override
 	protected void paintLines(
-			Graphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt) {
+			Graphics2D g, Series series, IntervalTransform xt, IntervalTransform yt) {
 		int x0 = ZMath.roundPositive(xt.transform(series.x(0)));
 		int y0 = ZMath.roundPositive(yt.transform(series.y(0)));
 		for (int i = 1; i < series.size(); ++i) {

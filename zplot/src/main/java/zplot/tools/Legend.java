@@ -8,7 +8,7 @@ import zplot.data.SeriesCollection;
 import zplot.plotter.DotPlotter;
 import zplot.plotter.LinePlotter;
 import zplot.utility.Interval2D;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 import zplot.utility.ZMath;
 
 public class Legend extends MovableSprite {
@@ -41,15 +41,15 @@ public class Legend extends MovableSprite {
 
 		for (LableInfo li : labels) {
 			SeriesCollection.Entry e = li.entry;
-			if (e.plotter instanceof LinePlotter) {
-				LinePlotter lp = (LinePlotter) e.plotter;
+			if (e.getPlotter() instanceof LinePlotter) {
+				LinePlotter lp = (LinePlotter) e.getPlotter();
 				g.setColor(lp.getColor());
 				g.setStroke(lp.getStroke());
-				SwingFuns.drawHorizontalLine(g, x, y + height / 2, lineWidth);
+				SwingUtils.drawHorizontalLine(g, x, y + height / 2, lineWidth);
 				x += lineWidth;
 				x += keyValueGap;
-			} else if (e.plotter instanceof DotPlotter) {
-				DotPlotter dp = (DotPlotter) e.plotter;
+			} else if (e.getPlotter() instanceof DotPlotter) {
+				DotPlotter dp = (DotPlotter) e.getPlotter();
 				g.setColor(dp.getColor());
 				g.fillRect(x + lineWidth / 2, y + (height - dotSize) / 2, dotSize, dotSize);
 				x += lineWidth;
@@ -65,7 +65,7 @@ public class Legend extends MovableSprite {
 	}
 
 	protected String makeLabel(SeriesCollection.Entry e) {
-		Object key = e.key;
+		Object key = e.getKey();
 		if (key != null) {
 			return key.toString();
 		}
@@ -80,7 +80,7 @@ public class Legend extends MovableSprite {
 			if (label == null) {
 				continue;
 			}
-			Rectangle bounds = SwingFuns.getStringBounds(g, label);
+			Rectangle bounds = SwingUtils.getStringBounds(g, label);
 			labels.add(new LableInfo(e, label, bounds));
 		}
 		return labels;

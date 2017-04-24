@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import siggui.utility.SigMath;
 
-public class BoundedRangeModel implements IRangeModel {
+public class BoundedRangeModel implements RangeModel {
 
 	public static BoundedRangeModel makeChecked(long fileSize, long minSize, long maxSize, long begin, long end) {
 		maxSize = Math.min(maxSize, fileSize);

@@ -1,5 +1,5 @@
-#include "javah/siggui_timeseries_TimeseriesTask.h"
-#include "javah/siggui_timeseries_TimeseriesParameters.h"
+#include "javah/siggui_perspectives_timeseries_TimeseriesTask.h"
+#include "javah/siggui_perspectives_timeseries_TimeseriesParameters.h"
 
 #include <cassert>
 #include <iostream>
@@ -36,7 +36,7 @@ private:
 TimeseriesResultClass TimeseriesResultClass::INSTANCE;
 
 TimeseriesResultClass::TimeseriesResultClass() : 
-	JavaClassBase("siggui/timeseries/TwoSeriesTimeseriesResult"),
+	JavaClassBase("siggui/perspectives/timeseries/TwoSeriesTimeseriesResult"),
 	constructor(NULL),
 	begin(NULL),
 	end(NULL),
@@ -98,19 +98,19 @@ SimpleBlock* makeBlock(int seriesType, bool isComplex)
 		{
 		default:
 			return new PowerBlock<std::complex<float> >();
-		case siggui_timeseries_TimeseriesParameters_SERIES_I:
+		case siggui_perspectives_timeseries_TimeseriesParameters_SERIES_I:
 			return new CopyBlock<0, 2>();
-		case siggui_timeseries_TimeseriesParameters_SERIES_Q:
+		case siggui_perspectives_timeseries_TimeseriesParameters_SERIES_Q:
 			return new CopyBlock<1, 2>();
-		case siggui_timeseries_TimeseriesParameters_SERIES_IvQ:
+		case siggui_perspectives_timeseries_TimeseriesParameters_SERIES_IvQ:
 			return new CopyBlock<0, 1>();
-		case siggui_timeseries_TimeseriesParameters_SERIES_PHASE:
+		case siggui_perspectives_timeseries_TimeseriesParameters_SERIES_PHASE:
 			return new PhaseBlock();
 		}
 	}
 	else // real
 	{
-		if (seriesType == siggui_timeseries_TimeseriesParameters_SERIES_I)
+		if (seriesType == siggui_perspectives_timeseries_TimeseriesParameters_SERIES_I)
 			return new CopyBlock<0, 1>();
 		else
 			return new PowerBlock<float>();
@@ -130,7 +130,7 @@ JNIEXPORT jobject JNICALL Java_siggui_timeseries_TimeseriesTask_calculateNative
 		info->byteOffset(static_cast<size_t>(sampleEnd)));
 	const size_t samples = static_cast<size_t>(sampleEnd - sampleBegin);
 
-	if (seriesType != siggui_timeseries_TimeseriesParameters_SERIES_I_AND_Q)
+	if (seriesType != siggui_perspectives_timeseries_TimeseriesParameters_SERIES_I_AND_Q)
 	{
 		std::auto_ptr<SimpleBlock> block(makeBlock(seriesType, info->isComplex));
 
@@ -159,8 +159,8 @@ JNIEXPORT jobject JNICALL Java_siggui_timeseries_TimeseriesTask_calculateNative
 			TimeseriesResultClass::instance().cls, 
 			TimeseriesResultClass::instance().constructor);
 		assert(result != NULL);
-		TimeseriesResultClass::instance().setFields(env, result, siggui_timeseries_TimeseriesParameters_SERIES_I, re, sampleBegin, sampleEnd);
-		TimeseriesResultClass::instance().setAdditionalFields(env, result, siggui_timeseries_TimeseriesParameters_SERIES_Q, im);
+		TimeseriesResultClass::instance().setFields(env, result, siggui_perspectives_timeseries_TimeseriesParameters_SERIES_I, re, sampleBegin, sampleEnd);
+		TimeseriesResultClass::instance().setAdditionalFields(env, result, siggui_perspectives_timeseries_TimeseriesParameters_SERIES_Q, im);
 		return result;
 	}
 }

@@ -24,11 +24,11 @@ public class RangePanel extends JPanel {
 		return slider.isAdjusting();
 	}
 
-	public IRangeModel getModel() {
+	public RangeModel getModel() {
 		return slider.getModel();
 	}
 
-	public void setModel(IRangeModel model) {
+	public void setModel(RangeModel model) {
 		slider.setModel(model);
 		textFields.setModel(model);
 	}

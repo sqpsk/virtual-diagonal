@@ -35,14 +35,6 @@ public class Interval {
 		return (begin + end) / 2.0;
 	}
 
-	public void setBegin(double x) {
-		begin = x;
-	}
-
-	public void setEnd(double x) {
-		end = x;
-	}
-
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();
@@ -66,6 +58,7 @@ public class Interval {
 	public boolean equals(Interval other) {
 		return begin == other.begin && end == other.end;
 	}
-	private double begin;
-	private double end;
+	
+	private final double begin;
+	private final double end;
 }

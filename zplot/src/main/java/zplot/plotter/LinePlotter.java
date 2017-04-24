@@ -4,15 +4,15 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
-import zplot.data.ISeries;
 import zplot.data.RegularSeries;
 import zplot.utility.Interval;
 import zplot.utility.Interval2D;
 import zplot.utility.IntervalTransform;
 import zplot.utility.ZGraphics2D;
 import zplot.utility.ZMath;
+import zplot.data.Series;
 
-public abstract class LinePlotter implements IInterpolatingPlotter {
+public abstract class LinePlotter implements InterpolatingPlotter {
 
 	public LinePlotter(Stroke stroke, Color color) {
 		this.stroke = stroke;
@@ -37,7 +37,7 @@ public abstract class LinePlotter implements IInterpolatingPlotter {
 
 	@Override
 	public void paintComponent(
-			ZGraphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas) {
+			ZGraphics2D g, Series series, IntervalTransform xt, IntervalTransform yt, Interval2D canvas) {
 		g.setStroke(stroke);
 		g.setColor(color);
 		if (series instanceof RegularSeries.Float) {
@@ -64,7 +64,7 @@ public abstract class LinePlotter implements IInterpolatingPlotter {
 	}
 
 	protected abstract void paintLines(
-			Graphics2D g, ISeries series, IntervalTransform xt, IntervalTransform yt);
+			Graphics2D g, Series series, IntervalTransform xt, IntervalTransform yt);
 
 	private static int toIndex(double x, Interval range, int size) {
 		return (int) ((x - range.begin()) * size / range.size());

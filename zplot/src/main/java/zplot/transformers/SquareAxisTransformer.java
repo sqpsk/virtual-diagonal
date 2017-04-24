@@ -3,7 +3,7 @@ package zplot.transformers;
 import zplot.utility.Interval2D;
 import zplot.utility.Interval2DTransform;
 
-public class SquareAxisTransformer implements IDataTransformer {
+public class SquareAxisTransformer implements DataTransformer {
 
 	public SquareAxisTransformer(int xPad, int yPad) {
 		this.xPad = xPad;

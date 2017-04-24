@@ -6,9 +6,9 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import zplot.utility.Interval;
 import zplot.utility.SiUnits;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 
-public class AxisSiSupport implements IPlotAxisSupport {
+public class AxisSiSupport implements PlotAxisSupport {
 
 	public String getUnits() {
 		return units;
@@ -50,8 +50,8 @@ public class AxisSiSupport implements IPlotAxisSupport {
 			siScale = Math.pow(10.0, logSiScale);
 
 			double sizeHz = rangeHz.size();
-			double quessDataStepHz = (Math.min(idealTickStepPx, sizePx) * sizeHz) / sizePx;
-			int N = (int) Math.log10(quessDataStepHz);
+			double guessDataStepHz = (Math.min(idealTickStepPx, sizePx) * sizeHz) / sizePx;
+			int N = (int) Math.log10(guessDataStepHz);
 
 			for (int k = -1; k <= 1; ++k) {
 				boolean stop = false;
@@ -65,9 +65,9 @@ public class AxisSiSupport implements IPlotAxisSupport {
 					axisFormat.setMaximumFractionDigits(dp);
 
 					String minValue = axisFormat.format(rangeHz.begin() / siScale);
-					Rectangle minLabelBounds = SwingFuns.getStringBounds(g, minValue);
+					Rectangle minLabelBounds = SwingUtils.getStringBounds(g, minValue);
 					String maxValue = axisFormat.format(rangeHz.end() / siScale);
-					Rectangle maxLabelBounds = SwingFuns.getStringBounds(g, maxValue);
+					Rectangle maxLabelBounds = SwingUtils.getStringBounds(g, maxValue);
 					int labelWidth = Math.max(minLabelBounds.width, maxLabelBounds.width);
 
 					int tickStepPx = (int) (tickStepHz * sizePx / rangeHz.size());

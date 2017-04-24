@@ -5,7 +5,7 @@ siggui.properties.SampleFormat ^
 siggui.properties.WaveFileProperties ^
 siggui.SigGuiNative ^
 siggui.SigGuiController ^
-siggui.timeseries.TimeseriesParameters ^
-siggui.timeseries.TimeseriesTask ^
-siggui.spectrum.SpectrumParameters ^
-siggui.spectrum.SpectrumTask
+siggui.perspectives.timeseries.TimeseriesParameters ^
+siggui.perspectives.timeseries.TimeseriesTask ^
+siggui.perspectives.spectrum.SpectrumParameters ^
+siggui.perspectives.spectrum.SpectrumTask

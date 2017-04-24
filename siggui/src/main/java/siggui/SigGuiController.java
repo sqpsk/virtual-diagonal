@@ -7,13 +7,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.filechooser.FileFilter;
-import siggui.api.ISigGuiController;
 import siggui.properties.AbsoluteFilePath;
 import siggui.properties.DurationProperty;
 import siggui.properties.FileSizeProperty;
 import siggui.properties.HeaderSizeProperty;
 import siggui.properties.PropertiesTablePanel;
-import siggui.properties.IProperty;
 import siggui.properties.PropertySet;
 import siggui.properties.SampleCountProperty;
 import siggui.properties.SampleFormat;
@@ -21,26 +19,15 @@ import siggui.properties.SampleFormatProperty;
 import siggui.properties.SampleRate;
 import siggui.properties.WaveFileProperties;
 import siggui.utility.CloseDialogAction;
-import siggui.utility.JarFuns;
+import siggui.utility.JarUtils;
 import siggui.utility.Logger;
+import siggui.properties.Property;
+import siggui.perspectives.PerspectiveController;
 
 class SigGuiController {
 
-	SigGuiController(ISigGuiController[] controllers) {
-		this.controllers = controllers;
-		fc.setDialogTitle("Open file");
-		fc.addChoosableFileFilter(new FileFilter() {
-			@Override
-			public boolean accept(File f) {
-				return f.isDirectory() || f.getName().endsWith(".wav");
-			}
-
-			@Override
-			public String getDescription() {
-				return "Wave files (*.wav)";
-			}
-		});
-		fc.setFileHidingEnabled(true);
+	SigGuiController(PerspectiveController[] perspectives) {
+		this.perspectives = perspectives;
 	}
 
 	public String getAppName() {
@@ -52,15 +39,15 @@ class SigGuiController {
 		view.getFrame().setTitle(APP_NAME);
 	}
 
-	public void showView(int index) {
-		ISigGuiController newController = controllers[index];
-		if (newController != activeController) {
-			if (activeController != null) {
-				activeController.notifyViewHidden();
+	public void showPerspective(int index) {
+		PerspectiveController newPerspective = perspectives[index];
+		if (newPerspective != activePerspective) {
+			if (activePerspective != null) {
+				activePerspective.notifyViewHidden();
 			}
-			activeController = newController;
-			activeController.notifyViewShown();
-			view.showView(index);
+			activePerspective = newPerspective;
+			activePerspective.notifyViewShown();
+			view.showPerspective(index);
 		}
 	}
 
@@ -128,10 +115,10 @@ class SigGuiController {
 					sampleFormat.isLittleEndian,
 					headerSizeBytes,
 					sampleRateHz);
-			for (ISigGuiController c : controllers) {
+			for (PerspectiveController c : perspectives) {
 				c.setFile(file, properties);
 			}
-			activeController.calculate(false);
+			activePerspective.calculate(false);
 		}
 	}
 
@@ -140,24 +127,26 @@ class SigGuiController {
 	}
 
 	void notifyOpenFileActionPerformed() {
-		fc.showOpenDialog(view.getFrame());
-		setFile(fc.getSelectedFile());
+		fileChooser.showOpenDialog(view.getFrame());
+		setFile(fileChooser.getSelectedFile());
 	}
 
 	void notifyAboutActionPerformed() {
 		StringBuilder sb = new StringBuilder(64);
 		sb.append(APP_NAME);
 		sb.append("\nVersion ");
-		sb.append(JarFuns.getPomProperty("siggui", "siggui", "version", SigGuiController.class));
+		sb.append(JarUtils.getPomProperty("siggui", "siggui", "version", SigGuiController.class));
+		sb.append("\nBuild time ");
+		sb.append(JarUtils.getManifestEntry("Build-Time", SigGuiController.class));
 		JOptionPane.showMessageDialog(null, sb.toString(), "About", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	void notifyFilePropertiesActionPerformed() {
-		Iterator<IProperty> i = properties.iterator();
+		Iterator<Property> i = properties.iterator();
 		String[][] rows = new String[properties.size()][2];
 		int index = 0;
 		while (i.hasNext()) {
-			IProperty p = i.next();
+			Property p = i.next();
 			rows[index][0] = p.displayName();
 			rows[index][1] = p.displayValue();
 			++index;
@@ -177,6 +166,24 @@ class SigGuiController {
 		return dlg;
 	}
 
+	private static JFileChooser makeFileChooser() {
+		JFileChooser fileChooser = new JFileChooser(System.getProperty("user.home"));
+		fileChooser.setDialogTitle("Open file");
+		fileChooser.addChoosableFileFilter(new FileFilter() {
+			@Override
+			public boolean accept(File f) {
+				return f.isDirectory() || f.getName().endsWith(".wav");
+			}
+
+			@Override
+			public String getDescription() {
+				return "Wave files (*.wav)";
+			}
+		});
+		fileChooser.setFileHidingEnabled(true);
+		return fileChooser;
+	}
+
 	private static native WaveFileProperties readWavHeader(String filename);
 
 	private static native void setFile(
@@ -190,10 +197,10 @@ class SigGuiController {
 
 	private static final int MIN_SAMPLE_COUNT = 2;
 	private static final String APP_NAME = "SigGUI";
-	private final ISigGuiController[] controllers;
-	private final JFileChooser fc = new JFileChooser(System.getProperty("user.home"));
+	private final PerspectiveController[] perspectives;
+	private final JFileChooser fileChooser = makeFileChooser();
 	private final OpenFilePanel openFilePanel = new OpenFilePanel();
-	private ISigGuiController activeController;
+	private PerspectiveController activePerspective;
 	private SigGuiView view;
 	private PropertySet properties;
 }

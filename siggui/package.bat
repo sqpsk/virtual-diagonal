@@ -1,6 +1,6 @@
 set VERSION=1.0.0
-rem call mvn clean install -DskipTests -f ../zplot/pom.xml
-rem call mvn clean install -DskipTests
+call mvn clean install -DskipTests -f ../zplot/pom.xml
+call mvn clean install -DskipTests
 
 REM Package x64 build
 set ARCH=x64

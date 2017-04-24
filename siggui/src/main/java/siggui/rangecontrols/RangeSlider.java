@@ -39,11 +39,11 @@ public class RangeSlider extends JComponent {
 		return model.isAdjusting();
 	}
 
-	public IRangeModel getModel() {
+	public RangeModel getModel() {
 		return model;
 	}
 
-	public void setModel(IRangeModel model) {
+	public void setModel(RangeModel model) {
 		if (this.model != null) {
 			removeMouseListener(trackListener);
 			removeMouseMotionListener(trackListener);
@@ -251,5 +251,5 @@ public class RangeSlider extends JComponent {
 	private static final Color KNOB_REGION_COLOR_DIS = KNOB_REGION_COLOR.brighter();
 	private static final Color KNOB_HANDLE_COLOR_DIS = KNOB_HANDLE_COLOR.brighter();
 	private static final int HANDLE_WIDTH = 5;
-	private IRangeModel model = new BoundedRangeModel(1024, 1, 1, 0, 1);
+	private RangeModel model = new BoundedRangeModel(1024, 1, 1, 0, 1);
 }

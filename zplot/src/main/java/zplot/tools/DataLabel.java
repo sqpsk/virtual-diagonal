@@ -10,7 +10,7 @@ import java.beans.PropertyChangeListener;
 import zplot.plotpanel.PlotPanel;
 import zplot.utility.Interval2D;
 import zplot.utility.Interval2DTransform;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 import zplot.utility.ZMath;
 
 public class DataLabel extends MovableSprite implements PropertyChangeListener {
@@ -35,18 +35,18 @@ public class DataLabel extends MovableSprite implements PropertyChangeListener {
 	public void add(PlotPanel plot) {
 		super.add(plot);
 		if (font != null) {
-			labelBounds = SwingFuns.getStringBounds(plot.getGraphics2D(), font, label);
+			labelBounds = SwingUtils.getStringBounds(plot.getGraphics2D(), font, label);
 		} else {
-			labelBounds = SwingFuns.getStringBounds(plot.getGraphics2D(), label);
+			labelBounds = SwingUtils.getStringBounds(plot.getGraphics2D(), label);
 		}
-		plot.addPropertyChangeListener(PlotPanel.NEW_PLOT, this);
+		plot.addPropertyChangeListener(PlotPanel.NEW_PLOT_PROPERTY, this);
 	}
 
 	@Override
 	public void remove(PlotPanel plot) {
 		super.remove(plot);
 		labelBounds = null;
-		plot.removePropertyChangeListener(PlotPanel.NEW_PLOT, this);
+		plot.removePropertyChangeListener(PlotPanel.NEW_PLOT_PROPERTY, this);
 	}
 
 	// PropertyChangeListener interface

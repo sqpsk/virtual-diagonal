@@ -2,8 +2,8 @@ package siggui.utility;
 
 public class SigMath {
 
-	// Returns the smallest integer N >= 0 st x < 2^N
-	public static int log2Bound(long x) {
+	// Returns the smallest integer N >= 0 such that x < 2^N
+	public static int log2UpperBound(long x) {
 		long y = 1;
 		int yLog2 = 0;
 		while (y <= x) {
@@ -14,6 +14,7 @@ public class SigMath {
 	}
 
 	public static int roundPositive(double x) {
+		assert x >= 0;
 		return (int) (x + 0.5);
 	}
 

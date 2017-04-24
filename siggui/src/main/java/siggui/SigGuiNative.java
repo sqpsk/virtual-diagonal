@@ -7,7 +7,7 @@ import siggui.utility.Logger;
 class SigGuiNative {
 
 	// Make sure fftw is on the linking path
-	public static void initNative() {
+	public static void loadNativeLibrary() {
 		try {
 			String nativeLib = System.getProperty("siggui_native_lib");
 			if (nativeLib == null) {
@@ -27,10 +27,6 @@ class SigGuiNative {
 		}
 	}
 
-	static {
-		initNative();
-	}
-
 	/**
 	 * Loads ClassIDs and MethodIDs to global memory.
 	 */
@@ -41,6 +37,6 @@ class SigGuiNative {
 	 */
 	private static native void destroy();
 
-	SigGuiNative() {
+	private SigGuiNative() {
 	}
 }

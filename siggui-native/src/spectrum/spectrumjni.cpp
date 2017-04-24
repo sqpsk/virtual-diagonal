@@ -1,5 +1,5 @@
-#include "javah/siggui_spectrum_SpectrumParameters.h"
-#include "javah/siggui_spectrum_SpectrumTask.h"
+#include "javah/siggui_perspectives_spectrum_SpectrumParameters.h"
+#include "javah/siggui_perspectives_spectrum_SpectrumTask.h"
 #include "jni/jniwrapper.h"
 #include "core/fileinfo.h"
 #include "core/filesource.h"
@@ -42,7 +42,7 @@ private:
 SpectrumResultClass SpectrumResultClass::INSTANCE;
 
 SpectrumResultClass::SpectrumResultClass() :
-	JavaClassBase("siggui/spectrum/SpectrumResult"),
+	JavaClassBase("siggui/perspectives/spectrum/SpectrumResult"),
 	constructor(NULL),
 	power(NULL) 
 {
@@ -101,10 +101,10 @@ JNIEXPORT jobject JNICALL Java_siggui_spectrum_SpectrumTask_calculateNative(
 	default:
 		fillGaussWindow(&windowFunction[0], static_cast<int>(windowFunction.size()), 0.2);
 		break;
-	case siggui_spectrum_SpectrumParameters_WINDOW_TRIANGLE:
+	case siggui_perspectives_spectrum_SpectrumParameters_WINDOW_TRIANGLE:
 		fillTriangularWindow(&windowFunction[0], static_cast<int>(windowFunction.size()));
 		break;
-	case siggui_spectrum_SpectrumParameters_WINDOW_RECTANGLE:
+	case siggui_perspectives_spectrum_SpectrumParameters_WINDOW_RECTANGLE:
 		std::fill(&windowFunction[0], &windowFunction[0] + windowFunction.size(), 1.0f);
 		break;
 	}

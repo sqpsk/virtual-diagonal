@@ -10,19 +10,19 @@ import java.awt.geom.Point2D;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.LinkedList;
-import zplot.data.ISeries;
 import zplot.data.SeriesCollection;
 import zplot.plotpanel.PlotAxis;
 import zplot.plotpanel.PlotPanel;
-import zplot.plotpanel.IPaintable;
 import zplot.utility.Interval2D;
 import zplot.utility.Interval2DTransform;
 import zplot.utility.IntervalTransform;
 import zplot.utility.PriorityMouseListener;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 import zplot.utility.ZMath;
+import zplot.data.Series;
+import zplot.plotpanel.Paintable;
 
-public class CrosshairTool implements PriorityMouseListener, IPlotTool, PropertyChangeListener, IPaintable {
+public class CrosshairTool implements PriorityMouseListener, PlotTool, PropertyChangeListener, Paintable {
 
 	/**
 	 * Add cross-hair functionality to the plot. The CrosshairTool holds a reference
@@ -61,7 +61,7 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 
 		if (sprites.size() == maxSprites) {
 			// Will be removed by property change listener
-			IPlotTool s = sprites.getFirst();
+			PlotTool s = sprites.getFirst();
 			s.remove(plot);
 		}
 		DataLabel s = makeNewSprite(data);
@@ -119,16 +119,16 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 	// PropertyChangeListener interface
 	@Override
 	public void propertyChange(PropertyChangeEvent pce) {
-		if (PlotPanel.NEW_DATA.equals(pce.getPropertyName())) {
+		if (PlotPanel.NEW_DATA_PROPERTY.equals(pce.getPropertyName())) {
 			reset();
-		} else if (!isResetting && PlotPanel.PAINTABLE_REMOVED.equals(pce.getPropertyName())) {
+		} else if (!isResetting && PlotPanel.PAINTABLE_REMOVED_PROPERTY.equals(pce.getPropertyName())) {
 			sprites.remove(pce.getNewValue());
 		}
 	}
 
 	public void reset() {
 		isResetting = true;
-		for (IPlotTool s : sprites) {
+		for (PlotTool s : sprites) {
 			s.remove(plot);
 		}
 		sprites.clear();
@@ -159,8 +159,8 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 			return null;
 		}
 
-		double xData = sc.get(best.seriesIndex).series.x(best.dataIndex);
-		double yData = sc.get(best.seriesIndex).series.y(best.dataIndex);
+		double xData = sc.get(best.seriesIndex).getSeries().x(best.dataIndex);
+		double yData = sc.get(best.seriesIndex).getSeries().y(best.dataIndex);
 		return new Point2D.Double(xData, yData);
 	}
 
@@ -187,7 +187,7 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 	public void paintComponent(Graphics2D g, Interval2D canvas) {
 		DataLabel t0 = null;
 		DataLabel t1 = null;
-		for (IPlotTool s : sprites) {
+		for (PlotTool s : sprites) {
 			if (s instanceof DataLabel) {
 				DataLabel dl = (DataLabel) s;
 				if (dl.isSelected()) {
@@ -216,10 +216,10 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 			PlotAxis axis = plot.getAxis();
 
 			String dx = "\u0394x = " + axis.getXAxisSupport().formatDelta(p1.x - p0.x);
-			Rectangle dxBounds = SwingFuns.getStringBounds(g, dx);
+			Rectangle dxBounds = SwingUtils.getStringBounds(g, dx);
 
 			String dy = "\u0394y = " + axis.getYAxisSupport().formatDelta(p1.y - p0.y);
-			Rectangle dyBounds = SwingFuns.getStringBounds(g, dy);
+			Rectangle dyBounds = SwingUtils.getStringBounds(g, dy);
 
 			int pad = 3;
 			int yOffset = 5;
@@ -251,7 +251,7 @@ public class CrosshairTool implements PriorityMouseListener, IPlotTool, Property
 			Point clicked) {
 		BestPoint best = new BestPoint();
 		for (int i = 0; i != sc.size(); ++i) {
-			ISeries series = sc.get(i).series;
+			Series series = sc.get(i).getSeries();
 			int bestDataIndex = -1;
 			double bestError = Double.MAX_VALUE;
 			for (int j = 0; j != series.size(); ++j) {

@@ -4,7 +4,7 @@ import zplot.utility.Interval2D;
 import zplot.utility.Interval2DTransform;
 import zplot.utility.IntervalTransform;
 
-public class FillCanvasTransformer implements IDataTransformer {
+public class FillCanvasTransformer implements DataTransformer {
 
 	public FillCanvasTransformer(int xPad, int yPad) {
 		this.xPad = xPad;

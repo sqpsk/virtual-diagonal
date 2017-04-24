@@ -6,7 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import zplot.utility.Interval2D;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 import zplot.utility.ZGraphics2D;
 import zplot.utility.ZMath;
 
@@ -35,11 +35,11 @@ public class PlotAxis {
 		gridLineStroke = s;
 	}
 
-	public IPlotAxisSupport getXAxisSupport() {
+	public PlotAxisSupport getXAxisSupport() {
 		return xSupport;
 	}
 
-	public void setXAxisSupport(IPlotAxisSupport supp) {
+	public void setXAxisSupport(PlotAxisSupport supp) {
 		xSupport = supp;
 	}
 
@@ -56,11 +56,11 @@ public class PlotAxis {
 		xSupport.setUnits(units);
 	}
 
-	public IPlotAxisSupport getYAxisSupport() {
+	public PlotAxisSupport getYAxisSupport() {
 		return ySupport;
 	}
 
-	public void setYAxisSupport(IPlotAxisSupport supp) {
+	public void setYAxisSupport(PlotAxisSupport supp) {
 		ySupport = supp;
 	}
 
@@ -120,7 +120,7 @@ public class PlotAxis {
 
 		if (xData.title != null) {
 			String s = xSupport.formatTitle(xData.title);
-			Rectangle titleBounds = SwingFuns.getStringBounds(g, s);
+			Rectangle titleBounds = SwingUtils.getStringBounds(g, s);
 			// Drawing letters with a tail (y) can get cut off
 			g.drawString(s, (xBegin + xEnd - titleBounds.width) / 2, yEnd - gapPx);
 		}
@@ -130,10 +130,10 @@ public class PlotAxis {
 
 		if (yData.title != null) {
 			String s = ySupport.formatTitle(yData.title);
-			Rectangle titleBounds = SwingFuns.getStringBounds(g, s);
+			Rectangle titleBounds = SwingUtils.getStringBounds(g, s);
 			int x = xBegin + gapPx + titleBounds.height - 3;
 			int y = (yEnd + titleBounds.width) / 2;
-			SwingFuns.drawVerticalString(g, s, x, y);
+			SwingUtils.drawVerticalString(g, s, x, y);
 		}
 	}
 
@@ -141,7 +141,7 @@ public class PlotAxis {
 		int sum = tickSizePx;
 		sum += gapPx;
 
-		int textHeight = SwingFuns.getStringBounds(g, "()").height;
+		int textHeight = SwingUtils.getStringBounds(g, "()").height;
 		sum += textHeight;
 		sum += gapPx;
 
@@ -159,21 +159,21 @@ public class PlotAxis {
 		sumPx += gapPx;
 
 		String minValue = ySupport.formatAxisLabel(axisRangeHz.y().begin());
-		Rectangle minLabelBounds = SwingFuns.getStringBounds(g, minValue);
+		Rectangle minLabelBounds = SwingUtils.getStringBounds(g, minValue);
 		String maxValue = ySupport.formatAxisLabel(axisRangeHz.y().end());
-		Rectangle maxLabelBounds = SwingFuns.getStringBounds(g, maxValue);
+		Rectangle maxLabelBounds = SwingUtils.getStringBounds(g, maxValue);
 		sumPx += Math.max(minLabelBounds.width, maxLabelBounds.width);
 		sumPx += gapPx;
 
 		if (yData.title != null) {
-			Rectangle titleBounds = SwingFuns.getStringBounds(g, "()");
+			Rectangle titleBounds = SwingUtils.getStringBounds(g, "()");
 			sumPx += titleBounds.height;
 			sumPx += gapPx;
 		}
 		return sumPx;
 	}
 
-	private void drawXaxis(ZGraphics2D g, int xBegin, int xEnd, int yBegin, int yEnd, IPlotAxisSupport supp) {
+	private void drawXaxis(ZGraphics2D g, int xBegin, int xEnd, int yBegin, int yEnd, PlotAxisSupport supp) {
 		final Stroke axisStroke = g.getStroke();
 		final double tickStepHz = supp.tickStepHz();
 		final int yTickBegin = yEnd - xAxisHeightPx;
@@ -220,7 +220,7 @@ public class PlotAxis {
 		}
 	}
 
-	private void drawYaxis(ZGraphics2D g, int xBegin, int xEnd, int yBegin, int yEnd, IPlotAxisSupport supp) {
+	private void drawYaxis(ZGraphics2D g, int xBegin, int xEnd, int yBegin, int yEnd, PlotAxisSupport supp) {
 		final Stroke axisStroke = g.getStroke();
 		final double tickStepHz = supp.tickStepHz();
 		final int xTickBegin = xBegin + yAxisWidthPx - tickSizePx;
@@ -267,7 +267,7 @@ public class PlotAxis {
 	}
 
 	private static int drawXLabel(Graphics2D g, String label, int prevEnd, int x, int y, int gap) {
-		Rectangle labelBounds = SwingFuns.getStringBounds(g, label);
+		Rectangle labelBounds = SwingUtils.getStringBounds(g, label);
 		// labelBounds is one past bounding rectangle so subtract 1
 		if (prevEnd + gap < x - (labelBounds.width / 2)) {
 			g.drawString(label, x - labelBounds.width / 2, y + labelBounds.height - 1);
@@ -278,7 +278,7 @@ public class PlotAxis {
 	}
 
 	private static void drawYLabel(Graphics2D g, String label, int x, int y) {
-		Rectangle labelBounds = SwingFuns.getStringBounds(g, label);
+		Rectangle labelBounds = SwingUtils.getStringBounds(g, label);
 		g.drawString(label, x - labelBounds.width - 1, y + labelBounds.height / 2);
 	}
 
@@ -295,8 +295,8 @@ public class PlotAxis {
 	private Color gridLineColor = Color.GRAY.brighter();
 	private Stroke gridLineStroke = new BasicStroke(1);
 	private boolean drawGridLines = true;
-	private IPlotAxisSupport xSupport = new AxisSiSupport();
-	private IPlotAxisSupport ySupport = new AxisSiSupport();
+	private PlotAxisSupport xSupport = new AxisSiSupport();
+	private PlotAxisSupport ySupport = new AxisSiSupport();
 	// The numbers on the axis. axisRangeHz must contain dataEnvelopeHz.
 	private Interval2D axisRangeHz = new Interval2D(-1.0, 1.0, -1.0, 1.0);
 	private int xAxisHeightPx = -1;

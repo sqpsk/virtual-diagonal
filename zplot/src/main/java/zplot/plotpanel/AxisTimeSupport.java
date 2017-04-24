@@ -4,9 +4,9 @@ import java.awt.Graphics2D;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import zplot.utility.Interval;
-import zplot.utility.SwingFuns;
+import zplot.utility.SwingUtils;
 
-public class AxisTimeSupport implements IPlotAxisSupport {
+public class AxisTimeSupport implements PlotAxisSupport {
 
 	@Override
 	public String getUnits() {
@@ -92,7 +92,7 @@ public class AxisTimeSupport implements IPlotAxisSupport {
 		assert (sizePx > 0) : "sizePx=" + sizePx;
 		assert (sizeMillis > 0) : "sizeHz=" + sizeMillis;
 		for (int tickStep : TICK_STEP_MILLIS) {
-			int minTickStepPx = SwingFuns.getStringBounds(g, getTickLabelFormat(tickStep)).width;
+			int minTickStepPx = SwingUtils.getStringBounds(g, getTickLabelFormat(tickStep)).width;
 			double minDataStepMillis = (Math.min(minTickStepPx, sizePx) * sizeMillis) / sizePx;
 			if (tickStep >= minDataStepMillis) {
 				return tickStep;

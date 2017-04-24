@@ -5,8 +5,8 @@ import zplot.utility.Interval2D;
 import zplot.utility.ZMath;
 
 /**
- * An irregularly sampled time-series, or x-y scatter data. The x and y
- * coordinate values of points are stored interleaved in an array.
+ * A class to represent an irregularly sampled time-series or x-y scatter data.
+ * The x and y coordinate values of points are stored interleaved in an array.
  *
  * The class is abstract but contains two static inner classes
  * InterleavedSeries.Double and InterleavedSeries.Float which store values in
@@ -14,39 +14,71 @@ import zplot.utility.ZMath;
  * private, instances are created using one of the static factory methods.
  *
  * We allow access to the underlying data array, which presents opportunity for
- * optimization in the plotting code. Any code accessing this array must promise
+ * optimisation in the plotting code. Any code accessing this array must promise
  * not to modify it.
  */
-public abstract class InterleavedSeries implements ISeries {
+public abstract class InterleavedSeries implements Series {
 
+	/**
+	 * Create an instance from interleaved (x,y)-values.
+	 *
+	 * @param interleaved The interleaved x and y values.
+	 * @return An InterleavedSeries instance.
+	 */
 	public static InterleavedSeries.Double makeScatterSeries(double[] interleaved) {
-		checkArguments(interleaved);
+		checkInterleavedValuesArgument(interleaved);
 		return new InterleavedSeries.Double(interleaved);
 	}
 
-	public static InterleavedSeries.Float makeScatterSeries(float[] interleaved) {
-		checkArguments(interleaved);
-		return new InterleavedSeries.Float(interleaved);
-	}
-
+	/**
+	 * Create an instance from interleaved (x,y)-values where the x values are
+	 * increasing.
+	 *
+	 * @param interleaved The interleaved (x,y)-values. The caller must ensure
+	 * that the x values are increasing.
+	 * @return An InterleavedSeries instance.
+	 */
 	public static InterleavedSeries.Double makeOrderedSeries(double[] interleaved) {
-		checkArguments(interleaved);
+		checkInterleavedValuesArgument(interleaved);
 		return new InterleavedSeries.OrderedDouble(interleaved);
 	}
 
+	/**
+	 * Overload for float values.
+	 *
+	 * @see InterleavedSeries#makeScatterSeries(double[])
+	 */
+	public static InterleavedSeries.Float makeScatterSeries(float[] interleaved) {
+		checkInterleavedValuesArgument(interleaved);
+		return new InterleavedSeries.Float(interleaved);
+	}
+
+	/**
+	 * Overload for float values.
+	 *
+	 * @see InterleavedSeries#makeOrderedSeries(double[])
+	 */
 	public static InterleavedSeries.Float makeOrderedSeries(float[] interleaved) {
-		checkArguments(interleaved);
+		checkInterleavedValuesArgument(interleaved);
 		return new InterleavedSeries.OrderedFloat(interleaved);
 	}
 
-	private static void checkArguments(double[] interleaved) {
-		if ((interleaved.length & 1) == 1) {
+	private static void checkInterleavedValuesArgument(double[] interleaved) {
+		if (interleaved == null) {
+			throw new NullPointerException("interleaved cannot be null");
+		} else if (interleaved.length == 0) {
+			throw new IllegalArgumentException("interleaved cannot be empty");
+		} else if ((interleaved.length & 1) == 1) {
 			throw new IllegalArgumentException("interleaved must have even length");
 		}
 	}
 
-	private static void checkArguments(float[] interleaved) {
-		if ((interleaved.length & 1) == 1) {
+	private static void checkInterleavedValuesArgument(float[] interleaved) {
+		if (interleaved == null) {
+			throw new NullPointerException("interleaved cannot be null");
+		} else if (interleaved.length == 0) {
+			throw new IllegalArgumentException("interleaved cannot be empty");
+		} else if ((interleaved.length & 1) == 1) {
 			throw new IllegalArgumentException("interleaved must have even length");
 		}
 	}
@@ -70,18 +102,6 @@ public abstract class InterleavedSeries implements ISeries {
 		return range.y();
 	}
 
-	public int pullBack(double x) {
-		for (int i = 0; i != size(); ++i) {
-			double xx = x(i);
-			if (xx == x) {
-				return i;
-			} else if (xx > x) {
-				return i - 1;
-			}
-		}
-		return 0;
-	}
-
 	private final Interval2D range;
 
 	public static class Double extends InterleavedSeries {
@@ -97,11 +117,6 @@ public abstract class InterleavedSeries implements ISeries {
 		}
 
 		@Override
-		public boolean isEmpty() {
-			return interleaved.length == 0;
-		}
-
-		@Override
 		public double x(int i) {
 			return interleaved[2 * i];
 		}
@@ -114,10 +129,15 @@ public abstract class InterleavedSeries implements ISeries {
 		private final double[] interleaved;
 	}
 
-	public static class OrderedDouble extends InterleavedSeries.Double implements IOrderedSeries {
+	public static class OrderedDouble extends InterleavedSeries.Double implements OrderedSeries {
 
 		private OrderedDouble(double[] interleaved) {
 			super(interleaved);
+		}
+
+		@Override
+		public int pullBack(double x) {
+			return pullBackImpl(this, x);
 		}
 	}
 
@@ -134,11 +154,6 @@ public abstract class InterleavedSeries implements ISeries {
 		}
 
 		@Override
-		public boolean isEmpty() {
-			return interleaved.length == 0;
-		}
-
-		@Override
 		public double x(int i) {
 			return interleaved[2 * i];
 		}
@@ -151,10 +166,27 @@ public abstract class InterleavedSeries implements ISeries {
 		private final float[] interleaved;
 	}
 
-	public static class OrderedFloat extends InterleavedSeries.Float implements IOrderedSeries {
+	public static class OrderedFloat extends InterleavedSeries.Float implements OrderedSeries {
 
 		private OrderedFloat(float[] interleaved) {
 			super(interleaved);
 		}
+
+		@Override
+		public int pullBack(double x) {
+			return pullBackImpl(this, x);
+		}
+	}
+
+	private static int pullBackImpl(Series series, double x) {
+		for (int i = 0; i != series.size(); ++i) {
+			double xx = series.x(i);
+			if (xx == x) {
+				return i;
+			} else if (xx > x) {
+				return Math.max(0, i - 1);
+			}
+		}
+		return series.size() - 1;
 	}
 }
