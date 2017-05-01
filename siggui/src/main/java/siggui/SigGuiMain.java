@@ -6,9 +6,9 @@ import java.io.IOException;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import siggui.utility.Logger;
-import siggui.perspectives.ViewControllerFactory;
 import siggui.perspectives.PerspectiveView;
 import siggui.perspectives.PerspectiveController;
+import siggui.perspectives.PerspectiveFactory;
 
 public class SigGuiMain {
 
@@ -45,7 +45,7 @@ public class SigGuiMain {
 		PerspectiveView[] views = new PerspectiveView[perspectiveFactoryClasses.length];
 		for (int i = 0; i != perspectiveFactoryClasses.length; ++i) {
 			Class c = Class.forName(perspectiveFactoryClasses[i]);
-			ViewControllerFactory factory = (ViewControllerFactory) c.newInstance();
+			PerspectiveFactory factory = (PerspectiveFactory) c.newInstance();
 			controllers[i] = factory.getController();
 			views[i] = factory.getView();
 		}

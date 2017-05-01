@@ -1,10 +1,10 @@
 package siggui.perspectives.spectrum;
 
-import siggui.perspectives.ViewControllerFactory;
 import siggui.perspectives.PerspectiveView;
 import siggui.perspectives.PerspectiveController;
+import siggui.perspectives.PerspectiveFactory;
 
-public class SpectrumFactory implements ViewControllerFactory {
+public class SpectrumFactory implements PerspectiveFactory {
 
 	public SpectrumFactory() {
 		controller = new SpectrumController();

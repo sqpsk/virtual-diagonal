@@ -5,16 +5,16 @@ import zplot.utility.SaveImageAction;
 
 public class DefaultSaveImageAction extends SaveImageAction {
 
-	public DefaultSaveImageAction(Component component, PerspectiveController controller, String plot) {
+	public DefaultSaveImageAction(Component component, PerspectiveController perspective, String plot) {
 		super(component, "PNG");
-		this.controller = controller;
+		this.perspective = perspective;
 		this.plot = plot;
 	}
 
 	@Override
 	protected String getFilename() {
-		return controller.getFile().getName() + '_' + plot + ".png";
+		return perspective.getFile().getName() + '_' + plot + ".png";
 	}
-	private final PerspectiveController controller;
+	private final PerspectiveController perspective;
 	private final String plot;
 }

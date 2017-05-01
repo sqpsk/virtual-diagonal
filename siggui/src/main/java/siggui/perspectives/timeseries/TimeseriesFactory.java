@@ -1,10 +1,10 @@
 package siggui.perspectives.timeseries;
 
-import siggui.perspectives.ViewControllerFactory;
 import siggui.perspectives.PerspectiveView;
 import siggui.perspectives.PerspectiveController;
+import siggui.perspectives.PerspectiveFactory;
 
-public class TimeseriesFactory implements ViewControllerFactory {
+public class TimeseriesFactory implements PerspectiveFactory {
 
 	public TimeseriesFactory() {
 		controller = new TimeseriesController();

@@ -24,7 +24,7 @@ class SigGuiView {
 			tabbedPane.addTab(v.getTitle(), v.toComponent());
 		}
 		frame.setMinimumSize(new Dimension(400, 200));
-		frame.setJMenuBar(makeFileMenuBar(perspectives));
+		frame.setJMenuBar(makeMenuBar(perspectives));
 		frame.add(tabbedPane);
 		frame.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 		frame.pack();
@@ -44,7 +44,7 @@ class SigGuiView {
 		tabbedPane.setSelectedIndex(index);
 	}
 
-	private JMenuBar makeFileMenuBar(PerspectiveView[] views) {
+	private JMenuBar makeMenuBar(PerspectiveView[] perspectives) {
 		JMenu fileMenu = new JMenu("File");
 		fileMenu.setMnemonic('f');
 		{
@@ -68,8 +68,8 @@ class SigGuiView {
 		viewMenu.setMnemonic('v');
 		{
 			ButtonGroup group = new ButtonGroup();
-			for (int i = 0; i != views.length; ++i) {
-				JMenuItem item = new JRadioButtonMenuItem(views[i].getTitle());
+			for (int i = 0; i != perspectives.length; ++i) {
+				JMenuItem item = new JRadioButtonMenuItem(perspectives[i].getTitle());
 				item.addActionListener(viewMenuItemActionListener);
 				group.add(item);
 				viewMenu.add(item);

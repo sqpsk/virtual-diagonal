@@ -4,19 +4,19 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class PropertySet {
+public class PropertySet implements Iterable<Property> {
+
+	@Override
+	public Iterator<Property> iterator() {
+		return map.values().iterator();
+	}
 
 	public void put(Property p) {
 		map.put(p.getClass(), p);
 	}
 
-	@SuppressWarnings("unchecked")
 	public <P extends Property> P get(Class<P> cls) {
 		return (P) map.get(cls);
-	}
-
-	public Iterator<Property> iterator() {
-		return map.values().iterator();
 	}
 
 	public int size() {

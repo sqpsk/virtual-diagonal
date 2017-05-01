@@ -1,6 +1,6 @@
 package siggui.perspectives;
 
-public interface ViewControllerFactory {
+public interface PerspectiveFactory {
 
 	PerspectiveController getController();
 
